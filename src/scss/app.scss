@@ -1,6 +1,10 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 h1 {
   font-size: 35px;
-  font-family: trebuchet ms, sans-serif;
+  //font-family: trebuchet ms, sans-serif;
   color: #000066;
 }
 
@@ -59,17 +63,17 @@ ul.main-menu {
     padding: 10px 9px 10px 9px;
     margin-bottom: 15px;
     border-radius: 10px;
-    border: 1px solid #15317E;
 
-    color: #15317E;
+    color: #393939;
     font-size: 18px;
     text-decoration: none;
 
-    background-color: rgb(215, 214, 220);
-    background: -webkit-linear-gradient(top, #E3E3E3, white);
-    background: -moz-linear-gradient(top, #E3E3E3, white);
-    background: -ms-linear-gradient(top, #E3E3E3, white);
-    background: -o-linear-gradient(top, #E3E3E3, white);
+    background: -webkit-linear-gradient(top,#E3E3E3,#fff);
+    background: -moz-linear-gradient(top,#E3E3E3,#fff);
+    background: -ms-linear-gradient(top,#E3E3E3,#fff);
+    background: -o-linear-gradient(top,#E3E3E3,#fff);
+    -moz-box-shadow: 0 0 5px 1px #BFBFBF;
+    -webkit-box-shadow: 0 0 5px 1px #BFBFBF;
     box-shadow: 0 0 5px 1px #BFBFBF;
   }
 }

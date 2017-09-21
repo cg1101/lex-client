@@ -1,7 +1,7 @@
 var mod = angular.module('lex.services.lex', []);
 
 mod.factory('api', function () {
-    const root = 'http://127.0.0.1:5000/api/1.0';
+    const root = '/api/1.0';
     return function (serverPath) {
         return root + serverPath;
     };
