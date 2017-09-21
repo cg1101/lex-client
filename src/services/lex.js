@@ -33,6 +33,16 @@ mod.factory('Lex', function ($http, $q, $filter, api, $timeout) {
         getTask: function (taskId) {
             return $http.get(api('/tasks/' + taskId));
         },
+        getBatch: function (batchId) {
+            return {
+                data: {
+                    batch: {
+                        batchId: batchId,
+                        name: 'batch #' + batchId
+                    }
+                }
+            };
+        },
         getFakeResponse: function (delay, data, config) {
             var _delay = delay || 0,
                 _data = data || {_timer: _delay},

@@ -2,6 +2,129 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+header[at-header-bar] {
+  background: #233987;
+  height: 48px;
+  margin-bottom: 0;
+
+  // for all fa icons to be bigger
+  [class^="icon-"]::before, [class*=" icon-"]::before,
+  [class^="fa-"]::before, [class*=" fa-"]::before {
+    font-size: 16px;
+    position: relative;
+    top: 1px;
+  }
+
+  & > div.navbar-header {
+    display: inline-block;
+
+    & > a.header-menu {
+      color: white;
+      cursor: pointer;
+      float: left;
+      padding: 14px 10px 0 10px;
+      border-left: 0;
+      display: inline-block;
+
+      &:hover {
+        color: lightgray;
+      }
+
+      & i {
+        padding: 0 5px;
+        &::before {
+          font-size: 21px;
+        }
+      }
+    }
+
+    & > div.auto-hide-navbar-tags {
+      display: inline-block;
+      float: left;
+      min-width: 200px;
+      & > a > img {
+        vertical-align: top;
+        padding-top: 5px;
+        padding-left: 20px;
+      }
+      & span.env-label {
+        color: white;
+        text-transform: uppercase;
+        font-size: 24px;
+        line-height: 44px;
+        padding-left: 23px;
+      }
+    }
+  }
+  & > div.rest-menu-items {
+    color: white;
+    font-size: 12px;
+    padding-right: 15px;
+
+    .header-caret {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin-left: 2px;
+      vertical-align: middle;
+      border-top: 4px solid white;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
+      border-bottom: 0 dotted;
+      content: "";
+    }
+
+    & > ul {
+      list-style-type: none;
+
+      & > li {
+        float: left;
+        line-height: 3em;
+        padding: 5px 8px;
+        & > a {
+          color: white;
+          text-decoration: none;
+          cursor: pointer;
+          &:visited {
+            color: white;
+          }
+          &:hover {
+            color: lightgray;
+          }
+        }
+
+        &.menu-item {
+          img.circular-image {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            border-radius: 25px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  header[at-header-bar] {
+    & > div.navbar-header > div.auto-hide-navbar-tags {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  header[at-header-bar] {
+    & > div.navbar-header {
+      & > a.header-menu {
+        padding: 14px 5px 0 5px;
+      }
+    }
+  }
+}
+
+
 h1 {
   font-size: 35px;
   //font-family: trebuchet ms, sans-serif;

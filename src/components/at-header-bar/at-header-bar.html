@@ -1,0 +1,436 @@
+<div class="nav navbar-header">
+
+    <a class="dropdown-toggle settings header-menu" data-toggle="dropdown"
+       ng-show="true || currentUser.hasCap('admin')">
+        <i class="fa fa-bars"></i>
+    </a>
+
+    <div class="auto-hide-navbar-tags">
+        <a href="/">
+            <img class="logo" alt="App logo large white" src="/static/img/app_logo_large_white.png">
+        </a>
+        <span class="env-label ng-binding"></span>
+    </div>
+
+    <ul class="dropdown-menu multi-column columns-4">
+        <div class="row">
+            <div class="col-sm-3" style="float:left;min-width:180px;">
+                <ul class="multi-column-dropdown">
+                    <li class="multi-column-header">Navigation</li>
+                    <li><a class="" ng-href="https://global.appen.com/" href="https://global.appen.com/">Home</a></li>
+                    <li><a class="" ng-href="https://global.appen.com/projects/shells_index"
+                           href="https://global.appen.com/projects/shells_index">Shells</a></li>
+                    <li><a class="" href="https://wd3.myworkday.com/appen/d/home.htmld">Workday</a></li>
+                    <li><a class="" href="https://appenonline.appen.com.au/">AppenOnline</a></li>
+                </ul>
+            </div>
+
+            <div class="col-sm-3" style="float:left;min-width:180px;">
+                <ul class="multi-column-dropdown" id="snert">
+                    <li class="multi-column-header">Users</li>
+                    <form accept-charset="UTF-8" action="/users/search_crowd" id="quick_search_form" method="post"
+                          style="padding-bottom: 10px;" class="ng-pristine ng-valid">
+                        <div style="display:none"><input name="utf8" value="✓" autocomplete="off" type="hidden"><input
+                                name="authenticity_token" value="dUfl795CQa7LIX/bz9uSaON+oFd38U71BcWR6vDh/3A="
+                                autocomplete="off" type="hidden"></div>
+                        <meta content="authenticity_token" name="csrf-param">
+                        <meta content="dUfl795CQa7LIX/bz9uSaON+oFd38U71BcWR6vDh/3A=" name="csrf-token">
+                        <input class="quick-search input-search"
+                               data-original-title="You can search by Name, Email, Appen ID, or Global ID"
+                               data-placement="top" data-toggle="tooltip" id="quick_search_input"
+                               name="quick_search_input" placeholder="User search"
+                               style="max-width: 100%; margin-bottom: 5px;" type="text">
+                        <input class="btn-flat small" id="commit" name="commit" style="display: none;"
+                               value="Apply Filter" type="submit">
+                        <input id="and_or_option_0" name="and_or[option_0]" value="and" class="" autocomplete="off"
+                               type="hidden"><input id="and_or_option_1" name="and_or[option_1]" value="or" class=""
+                                                    autocomplete="off" type="hidden"><input id="and_or_option_2"
+                                                                                            name="and_or[option_2]"
+                                                                                            value="or" class=""
+                                                                                            autocomplete="off"
+                                                                                            type="hidden"><input
+                            id="and_or_option_3" name="and_or[option_3]" value="or" class="" autocomplete="off"
+                            type="hidden"><input id="and_or_option_4" name="and_or[option_4]" value="or" class=""
+                                                 autocomplete="off" type="hidden"><input id="and_or_option_5"
+                                                                                         name="and_or[option_5]"
+                                                                                         value="view" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="and_or_option_6" name="and_or[option_6]" value="view" class="" autocomplete="off"
+                            type="hidden"><input id="attribute_option_0" name="attribute[option_0]" value="first_name"
+                                                 class="" autocomplete="off" type="hidden"><input
+                            id="attribute_option_1" name="attribute[option_1]" value="last_name" class=""
+                            autocomplete="off" type="hidden"><input id="attribute_option_2" name="attribute[option_2]"
+                                                                    value="email" class="" autocomplete="off"
+                                                                    type="hidden"><input id="attribute_option_3"
+                                                                                         name="attribute[option_3]"
+                                                                                         value="appen_id" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="attribute_option_4" name="attribute[option_4]" value="global_id" class=""
+                            autocomplete="off" type="hidden"><input id="attribute_option_5" name="attribute[option_5]"
+                                                                    value="email" class="" autocomplete="off"
+                                                                    type="hidden"><input id="attribute_option_6"
+                                                                                         name="attribute[option_6]"
+                                                                                         value="appen_id" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="operand_option_0" name="operand[option_0]" value="like" class="" autocomplete="off"
+                            type="hidden"><input id="operand_option_1" name="operand[option_1]" value="like" class=""
+                                                 autocomplete="off" type="hidden"><input id="operand_option_2"
+                                                                                         name="operand[option_2]"
+                                                                                         value="like" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="operand_option_3" name="operand[option_3]" value="=" class="" autocomplete="off"
+                            type="hidden"><input id="operand_option_4" name="operand[option_4]" value="=" class=""
+                                                 autocomplete="off" type="hidden"><input id="search_option_0"
+                                                                                         name="search[option_0]"
+                                                                                         value=""
+                                                                                         class="hidden_query_field"
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="search_option_1" name="search[option_1]" value="" class="hidden_query_field"
+                            autocomplete="off" type="hidden"><input id="search_option_2" name="search[option_2]"
+                                                                    value="" class="hidden_query_field"
+                                                                    autocomplete="off" type="hidden"><input
+                            id="search_option_3" name="search[option_3]" value="" class="hidden_query_field"
+                            autocomplete="off" type="hidden"><input id="search_option_4" name="search[option_4]"
+                                                                    value="" class="hidden_query_field"
+                                                                    autocomplete="off" type="hidden"><input
+                            id="and_or_option_0" name="and_or[option_0]" value="and" class="" autocomplete="off"
+                            type="hidden"><input id="and_or_option_1" name="and_or[option_1]" value="or" class=""
+                                                 autocomplete="off" type="hidden"><input id="and_or_option_2"
+                                                                                         name="and_or[option_2]"
+                                                                                         value="or" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="and_or_option_3" name="and_or[option_3]" value="or" class="" autocomplete="off"
+                            type="hidden"><input id="and_or_option_4" name="and_or[option_4]" value="or" class=""
+                                                 autocomplete="off" type="hidden"><input id="and_or_option_5"
+                                                                                         name="and_or[option_5]"
+                                                                                         value="view" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="and_or_option_6" name="and_or[option_6]" value="view" class="" autocomplete="off"
+                            type="hidden"><input id="attribute_option_0" name="attribute[option_0]" value="first_name"
+                                                 class="" autocomplete="off" type="hidden"><input
+                            id="attribute_option_1" name="attribute[option_1]" value="last_name" class=""
+                            autocomplete="off" type="hidden"><input id="attribute_option_2" name="attribute[option_2]"
+                                                                    value="email" class="" autocomplete="off"
+                                                                    type="hidden"><input id="attribute_option_3"
+                                                                                         name="attribute[option_3]"
+                                                                                         value="appen_id" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="attribute_option_4" name="attribute[option_4]" value="global_id" class=""
+                            autocomplete="off" type="hidden"><input id="attribute_option_5" name="attribute[option_5]"
+                                                                    value="email" class="" autocomplete="off"
+                                                                    type="hidden"><input id="attribute_option_6"
+                                                                                         name="attribute[option_6]"
+                                                                                         value="appen_id" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="operand_option_0" name="operand[option_0]" value="like" class="" autocomplete="off"
+                            type="hidden"><input id="operand_option_1" name="operand[option_1]" value="like" class=""
+                                                 autocomplete="off" type="hidden"><input id="operand_option_2"
+                                                                                         name="operand[option_2]"
+                                                                                         value="like" class=""
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="operand_option_3" name="operand[option_3]" value="=" class="" autocomplete="off"
+                            type="hidden"><input id="operand_option_4" name="operand[option_4]" value="=" class=""
+                                                 autocomplete="off" type="hidden"><input id="search_option_0"
+                                                                                         name="search[option_0]"
+                                                                                         value=""
+                                                                                         class="hidden_query_field"
+                                                                                         autocomplete="off"
+                                                                                         type="hidden"><input
+                            id="search_option_1" name="search[option_1]" value="" class="hidden_query_field"
+                            autocomplete="off" type="hidden"><input id="search_option_2" name="search[option_2]"
+                                                                    value="" class="hidden_query_field"
+                                                                    autocomplete="off" type="hidden"><input
+                            id="search_option_3" name="search[option_3]" value="" class="hidden_query_field"
+                            autocomplete="off" type="hidden"><input id="search_option_4" name="search[option_4]"
+                                                                    value="" class="hidden_query_field"
+                                                                    autocomplete="off" type="hidden"></form>
+                    <script>
+                        $(function () {
+                            function addField(key, index, val, klass='') {
+                                var form = $('#quick_search_form');
+                                var field = '<input type="hidden" id="' + key + '_option_' + index + '" name="' + key + '[option_' + index + ']" value="' + val + '" class="' + klass + '">';
+                                form.append(field);
+                            }
+
+
+                            $('#snert').click(function (e) {
+                                e.stopPropagation(); //This will prevent the event from bubbling up and close the dropdown when you type/click on text boxes.
+                            });
+
+
+                            addField('and_or', 0, "and");
+                            addField('and_or', 1, "or");
+                            addField('and_or', 2, "or");
+                            addField('and_or', 3, "or");
+                            addField('and_or', 4, "or");
+
+                            addField('and_or', 5, 'view');
+                            addField('and_or', 6, 'view');
+
+                            addField('attribute', 0, 'first_name');
+                            addField('attribute', 1, 'last_name');
+                            addField('attribute', 2, 'email');
+                            addField('attribute', 3, 'appen_id');
+                            addField('attribute', 4, 'global_id');
+                            addField('attribute', 5, 'email');
+                            addField('attribute', 6, 'appen_id');
+
+                            addField('operand', 0, 'like');
+                            addField('operand', 1, 'like');
+                            addField('operand', 2, 'like');
+
+                            addField('operand', 3, '=');
+                            addField('operand', 4, '=');
+
+                            addField('search', 0, '', 'hidden_query_field');
+                            addField('search', 1, '', 'hidden_query_field');
+                            addField('search', 2, '', 'hidden_query_field');
+                            addField('search', 3, '', 'hidden_query_field');
+                            addField('search', 4, '', 'hidden_query_field');
+
+                            $('#quick_search_form').submit(function (e) {
+                                var val = $('#quick_search_input').val();
+                                $('.hidden_query_field').val(val);
+
+                                if (val == '' || (isNaN(val) && val.length < 3)) {
+                                    alert("Please enter at least 3 characters for Name and Email searches.");
+                                    return false;
+                                }
+                            });
+                        });
+                    </script>
+
+                    <!-- ngRepeat: i in ctrl.getMenuItems('users') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('users')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/users/search?available=1"
+                           href="https://global.appen.com/users/search?available=1">Quick Search</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('users') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('users')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/user_searches"
+                           href="https://global.appen.com/user_searches">Saved Search</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('users') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('users')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/user_lists"
+                           href="https://global.appen.com/user_lists">Saved Lists</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('users') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('users')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/projects"
+                           href="https://global.appen.com/projects">Favorite Search</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('users') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('users')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/users/search?advanced=1"
+                           href="https://global.appen.com/users/search?advanced=1">Advanced Search</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('users') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('users')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/users/import"
+                           href="https://global.appen.com/users/import">Import</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('users') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('users')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/user_data_sources"
+                           href="https://global.appen.com/user_data_sources">Data sources</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('users') -->
+
+                </ul>
+            </div>
+
+            <div class="col-sm-3" style="float:left;min-width:180px;">
+
+                <ul class="multi-column-dropdown">
+                    <li class="multi-column-header">Truth Sets</li>
+                    <!-- ngRepeat: i in ctrl.getMenuItems('truth_sets') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('truth_sets')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/truth_set_items"
+                           href="https://global.appen.com/truth_set_items">Truth Set Items</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('truth_sets') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('truth_sets')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/truth_sets"
+                           href="https://global.appen.com/truth_sets">Truth Sets</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('truth_sets') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('truth_sets')" class="ng-scope">
+                        <a class="ng-binding" ng-href="https://global.appen.com/truth_set_items/import"
+                           href="https://global.appen.com/truth_set_items/import">Import</a></li>
+                    <!-- end ngRepeat: i in ctrl.getMenuItems('truth_sets') -->
+                </ul>
+
+            </div>
+
+            <div class="col-sm-3" style="float:left;min-width:180px;">
+
+                <ul class="multi-column-dropdown">
+                    <li class="multi-column-header">Reports</li>
+                    <!-- ngRepeat: i in ctrl.getMenuItems('reports') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('reports')" class="ng-scope">
+                        <a class="ng-binding"
+                           href="https://global.appen.com/reports/performance_user_payment/report_instances/new">User
+                            Payments</a></li><!-- end ngRepeat: i in ctrl.getMenuItems('reports') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('reports')" class="ng-scope">
+                        <a class="ng-binding"
+                           href="https://global.appen.com/reports/performance_user_reported_time/report_instances/new">User
+                            times</a></li><!-- end ngRepeat: i in ctrl.getMenuItems('reports') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('reports')" class="ng-scope">
+                        <a class="ng-binding" href="https://global.appen.com/report_instances/populate_discrepancies">User
+                            Discrepancy</a></li><!-- end ngRepeat: i in ctrl.getMenuItems('reports') -->
+                    <li ng-repeat="i in ctrl.getMenuItems('reports')" class="ng-scope">
+                        <a class="ng-binding"
+                           href="https://global.appen.com/reports/performance_user_accrued_pto/report_instances/new">Accrued
+                            PTO</a></li><!-- end ngRepeat: i in ctrl.getMenuItems('reports') -->
+                </ul>
+
+            </div>
+
+        </div>
+
+
+    </ul>
+
+</div>
+
+<div class="rest-menu-items pull-right">
+    <ul>
+        <li>
+            <a class="trigger header-menu-active menu-item" ng-show="currentUser.hasCap('admin')"
+               ng-href="https://global.appen.com/support_tickets" href="https://global.appen.com/support_tickets">Support</a>
+            <a class="trigger header-menu-active menu-item ng-hide" ng-hide="currentUser.hasCap('admin')"
+               ng-click="ctrl.showSupportDialog()">Support</a>
+        </li>
+
+        <li id="help_page_link" class="menu-item" ng-show="true || currentUser.hasCap('admin')">
+            <a class="header-menu-active"
+               data-placement="bottom"
+               data-toggle="tooltip"
+               ng-href="https://global.appen.com/help_pages/new?action_name=index&amp;controller_name=projects"
+               title=""
+               data-original-title="Add Online Help"
+               href="https://global.appen.com/help_pages/new?action_name=index&amp;controller_name=projects">
+                <i class="fa fa-question-circle-o"></i>
+            </a>
+        </li>
+
+        <li class="notification-dropdown menu-item">
+            <a class="trigger header-menu header-menu-active" id="notification_trigger">
+                <i class="fa fa-bullhorn header-menu-active"></i>
+                <!--<span class="count">1</span>-->
+            </a>
+            <div class="pop-dialog" ng-show="false">
+                <div class="pointer right">
+                    <div class="arrow"></div>
+                    <div class="arrow_border"></div>
+                </div>
+                <div class="body">
+                    <a href="#" class="close-icon"><i class="icon-remove-sign"></i></a>
+                    <div class="notifications">
+                        <h3>You have 1 new notification</h3>
+                        <div class="loader"><img alt="Ajax loader"
+                                                 src="/assets/ajax_loader-bab9156ad9c97e5eb83945e480827376.gif">
+                        </div>
+                        <div id="notification_content"></div>
+                        <div class="footer">
+                            <a class="logout" href="/notification_users">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="menu-item dropdown">
+            <a class="header-menu header-menu-active ng-binding" data-toggle="dropdown">
+                <img alt="user" class="display circular-image" src="/static/img/avatar_default.png">
+
+                <b class="header-caret header-menu-active" style="border-top: 4px solid white;"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right pull-right">
+                <div class="row">
+                    <div class="col-sm-3" style="float:left;min-width:180px;">
+                        <ul class="multi-column-dropdown">
+                            <li><a href="https://global.appen.com/users/edit">Account settings</a></li>
+                            <li><a href="https://global.appen.com/update_password">Change password</a></li>
+                            <li><a data-remote="true" href="https://global.appen.com/user_availabilities">My
+                                availability</a></li>
+                            <li>
+                                <a data-method="delete" href="/logout" rel="nofollow" target="_self">
+                                    Logout
+                                </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </ul>
+        </li>
+
+        <li ng-show="true || currentUser.hasCap('admin')">
+            <a class="header-menu header-menu-active menu-item" data-toggle="dropdown">
+                <i class="fa fa-cog header-menu-active"></i>
+            </a>
+            <ul class="dropdown-menu multi-column columns-4" style="float: left">
+                <div class="row">
+                    <div class="col-sm-3" style="float:left;min-width:180px;">
+                        <ul class="multi-column-dropdown">
+                            <li class="multi-column-header">System configuration</li>
+                            <li><a href="/sys_configs/1/edit">System</a></li>
+                            <li><a href="/email_for_vetting">Email for vetting</a></li>
+                            <li><a href="/api_tests">API tests</a></li>
+                            <li><a href="/application_caches">Application cache</a></li>
+                            <li><a class="popup_frame" href="/document_queues/clean_queue_items">Clean up queue</a>
+                            </li>
+                            <li><a data-remote="true" href="/projects/find_inactive_projcts">Inactive? Projects</a></li>
+                            <li><a data-remote="true" href="/project_users/check_expired_project_users">Release
+                                users</a></li>
+                            <li><a data-remote="true" href="/projects/refresh_workday_project">Workday get project</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-3" style="float:left;min-width:180px;">
+                        <ul class="multi-column-dropdown">
+                            <li class="multi-column-header">Flow configuration</li>
+                            <li><a href="/project_types">Task types</a></li>
+                            <li><a href="/project_type_legacies">Task work page templates</a></li>
+                            <li><a href="/services">Services</a></li>
+                            <li><a href="/service_flows">Service flows</a></li>
+                            <li><a href="/ui_components">UI components</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-3" style="float:left;min-width:180px;">
+                        <ul class="multi-column-dropdown">
+                            <li class="multi-column-header">HR/Finance</li>
+                            <li><a href="/countries">Countries</a></li>
+                            <li><a href="/languages">Languages</a></li>
+                            <li><a href="/dialects">Dialects</a></li>
+                            <li><a href="/proficiencies">Proficiencies</a></li>
+                            <li><a href="/currencies">Currencies</a></li>
+                            <li><a href="/currency_location_payment_rates">Country payment rates</a></li>
+                            <li><a href="/workflows">Qualification workflows</a></li>
+                            <li><a href="/document_containers">Document library</a></li>
+                            <li><a href="/links">Link library</a></li>
+                            <li><a href="/user_attribute_groups">User attribute groups</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-3" style="float:left;min-width:180px;">
+                        <ul class="multi-column-dropdown">
+                            <li class="multi-column-header">Objects</li>
+                            <li><a href="/clients">Clients</a></li>
+                            <li><a href="/programs">Programs</a></li>
+                            <li><a href="/projects">Projects</a></li>
+                            <li><a href="/attribute_types">Attribute types</a></li>
+                            <li><a href="/user_attributes">User attributes</a></li>
+                            <li><a href="/payment_providers">Payment providers</a></li>
+                            <li><a href="/payment_periods">Payment periods</a></li>
+                            <li><a href="/email_templates">Email templates</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </ul>
+        </li>
+    </ul>
+</div>

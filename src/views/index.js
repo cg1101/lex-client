@@ -10,5 +10,6 @@ var mod = angular.module('at.views', [
 	'at.views.projects',
 	'at.views.quoting-report',
 	'at.views.tasks',
-	'at.views.user-report'
+	'at.views.user-report',
+	'at.views.work'
 ]);
