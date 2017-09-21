@@ -1,0 +1,106 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true"
+              ng-click="$dismiss()">&times;</span>
+    </button>
+    <h4 class="modal-title">{{title}}</h4>
+</div>
+<div class="modal-body">
+    <div style="position: relative;">
+        <div style="width:50%;float:left;background-color1: lightyellow;">
+            <div style="padding-right:7px;">
+                <uib-tabset active="tabIndex">
+                    <uib-tab heading="Consonant"></uib-tab>
+                    <!--<uib-tab heading="Consonant+Diacritic"></uib-tab>-->
+                    <uib-tab heading="Vowel"></uib-tab>
+                    <!--<uib-tab heading="Vowel+Diacritic"></uib-tab>-->
+                    <!--<uib-tab heading="Di(Tri)phthong"></uib-tab>-->
+                </uib-tabset>
+                <div style="border:thin solid lightgray;border-top-width:0;padding:15px;height:280px;overflow:scroll;">
+                    <div ng-show="tabIndex == 0">
+                            <span style="display:inline-block;
+                            line-height:28px;
+                            text-align:center;width:28px;height:28px;border:lightgray solid thin;margin:2px;border-radius:4px;"
+                                  ng-repeat="ph in getConsonants()">{{ph.symbol}}</span>
+                    </div>
+                    <div ng-show="tabIndex == 1">
+                            <span style="display:inline-block;
+                            line-height:28px;
+                            text-align:center;width:28px;height:28px;border:lightgray solid thin;margin:2px;border-radius:4px;"
+                                  ng-repeat="ph in getVowels()">{{ph.symbol}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:50%;display: inline-block;background-color1: lightblue;">
+            <div style="padding-left:7px;">
+                <div class="row">
+
+                    <!--
+                                <div ng-show="tabIndex === 0">
+                                    &lt;!&ndash;<h2>Consonant</h2>&ndash;&gt;
+                                </div>
+                    -->
+                    <div ng-show="tabIndex === 0">
+                        <!--<h2>Consonant+Diacritic</h2>-->
+
+                        <div style="background-color:lightyellow;margin:0 15px 15px 15px;border-radius:5px;min-height:40px;">
+                            Choose a consonant
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control"
+                                    ng-model="formInput.chosenConsonant"
+                                    ng-options="c as c.symbol for c in ctrl.iterConsonants()"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control"
+                                    ng-model="formInput.chosenDiacritic"
+                                    ng-options="c as c.symbol for c in ctrl.iterDiacritics(false)"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-xs"><i class="glyphicon glyphicon-plus"></i></button>
+                        </div>
+
+                        <div class="text-center" style="font-size:72pt;">
+                            {{formInput.chosenConsonant.symbol}}
+                        </div>
+                    </div>
+                    <!--
+                                <div ng-show="tabIndex === 2">
+                                    &lt;!&ndash;<h2>Vowel</h2>&ndash;&gt;
+                                </div>
+                    -->
+                    <div ng-show="tabIndex === 1">
+                        <!--<h2>Vowel+Diacritic</h2>-->
+                        <div class="col-sm-2">
+                            <select class="form-control"
+                                    ng-model="formInput.chosenVowel"
+                                    ng-options="c as c.symbol for c in ctrl.iterVowels()"></select>
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="form-control"
+                                    ng-model="formInput.chosenDiacritic"
+                                    ng-options="c as c.symbol for c in ctrl.iterDiacritics(true)"></select>
+                        </div>
+                    </div>
+                    <!--
+                                    <div ng-show="tabIndex === 4">
+                                        &lt;!&ndash;<h2>Di(Tri)phthong</h2>&ndash;&gt;
+                                    </div>
+                    -->
+                </div>
+                <div style="margin-top:15px;">
+                    <label>New Phones</label>
+                    <div style="border:thin gray solid;min-height:50px;"></div>
+                </div>
+            </div>
+        </div>
+        <span class="clearfix"></span>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary"
+            ng-click="$close()">Okay
+    </button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$dismiss()">Cancel</button>
+</div>

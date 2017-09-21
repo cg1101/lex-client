@@ -1,0 +1,27 @@
+<!-- content of dialects -->
+<section class="busy" ng-show="context.isLoading">
+    <i class="fa fa-2x fa-spinner fa-pulse"></i>
+</section>
+
+<section ng-hide="context.isLoading">
+    <h1>{{title}}</h1>
+    <table class="table table-hover">
+        <tr>
+            <th>Dialect Name</th>
+            <th>ISO 639-3</th>
+            <th>ISO 3166-3</th>
+            <th>ISO Script</th>
+            <th>Directionality</th>
+            <th>Romainsation</th>
+        </tr>
+        <tr ng-repeat="d in dialects">
+            <td>{{d.name}}</td>
+            <td>{{d.langCode}}</td>
+            <td>{{d.countryCode}}</td>
+            <td>{{ctrl.getScriptLabel(d.script)}}</td>
+            <td>{{d.ltr ? 'Left-to-right' : 'Right-to-left'}}</td>
+            <td>{{d.romanizationScheme}}</td>
+            <!--<td>{{d | json}}</td>-->
+        </tr>
+    </table>
+</section>

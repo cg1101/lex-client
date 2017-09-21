@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true"
+              ng-click="$dismiss()">&times;</span>
+    </button>
+    <h4 class="modal-title">{{title}}</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-3">
+            <label>Manner</label>
+        </div>
+        <div class="col-sm-3">
+            <select class="form-control"
+                    ng-model="formInput.manner"
+                    ng-options="m for m in ctrl.getManners()"></select>
+
+        </div>
+        <div class="col-sm-3">
+            <select class="form-control"
+                    ng-model="formInput.diacritic"
+                    ng-options="d for d in ctrl.getDiacritics(true)"></select>
+
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary"
+            ng-click="$close()">Okay
+    </button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$dismiss()">Cancel</button>
+</div>

@@ -1,0 +1,10 @@
+<!-- content of project -->
+<h1>Project: {{project.name}} - {{project.projectId}}</h1>
+
+{{project|json:2}}
+<table class="table table-hover">
+    <tr ng-repeat="t in ctrl.getTasks()">
+        <td>{{t.taskId}}</td>
+        <td>{{t.name}}</td>
+    </tr>
+</table>

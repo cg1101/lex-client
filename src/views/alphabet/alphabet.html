@@ -1,0 +1,474 @@
+<!-- content of alphabet -->
+<section class="busy" ng-show="context.isLoading">
+    <i class="fa fa-2x fa-spinner fa-pulse"></i>
+</section>
+
+<section ng-hide="context.isLoading">
+    <h1>{{title}}</h1>
+
+    <uib-tabset active="tabIndex">
+        <uib-tab heading="Summary"></uib-tab>
+        <uib-tab heading="Phone Chart"></uib-tab>
+        <uib-tab heading="Phone Table"></uib-tab>
+        <uib-tab heading="Phonology"></uib-tab>
+        <uib-tab heading="Syllabification"></uib-tab>
+        <uib-tab heading="Stress"></uib-tab>
+        <uib-tab heading="Vowelisation"></uib-tab>
+    </uib-tabset>
+
+    <div ng-show="tabIndex === 0" class="row">
+        <div class="col-sm-4" ng-show="alphabet.manPageUrl">
+            <h2>Alphabet Manual Page</h2>
+            <a href="{{alphabet.manPageUrl}}">{{alphabet.name}}</a>
+        </div>
+        <div class="col-sm-4">
+            <h2>Dialect</h2>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Dialect:
+                    <span class="pull-right">{{alphabet.dialect.name}}</span>
+                </li>
+                <li class="list-group-item">
+                    Language:
+                    <span class="pull-right">{{alphabet.dialect.langCode}}</span>
+                </li>
+                <li class="list-group-item">
+                    Region:
+                    <span class="pull-right">{{alphabet.dialect.countryCode}}</span>
+                </li>
+                <li class="list-group-item">
+                    Writing Script:
+                    <span class="pull-right">{{alphabet.dialect.script.name}}</span>
+                </li>
+                <li class="list-group-item">
+                    Directionality:
+                    <span class="pull-right">{{alphabet.dialect.ltr ? 'Left-to-right' : 'Right-to-left'}}</span>
+                </li>
+                <li class="list-group-item">
+                    Romanisation Scheme:
+                    <span class="pull-right">{{alphabet.dialect.romanizationScheme || 'n/a'}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <h2>Phones</h2>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Total Phones:
+                    <span class="pull-right badge">{{ctrl.getPhoneCount()}}</span>
+                </li>
+                <li class="list-group-item">
+                    Vowels:
+                    <span class="pull-right badge">{{ctrl.getPhoneCount('vowel')}}</span>
+                </li>
+                <li class="list-group-item">
+                    Consonants:
+                    <span class="pull-right badge">{{ctrl.getPhoneCount('consonant')}}</span>
+                </li>
+                <li class="list-group-item">
+                    Suprasegmental:
+                    <span class="pull-right badge">{{ctrl.getPhoneCount('suprasegmental')}}</span>
+                </li>
+                <li class="list-group-item">
+                    Diacritic:
+                    <span class="pull-right badge">{{ctrl.getPhoneCount('diacritic')}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <h2>Rules</h2>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Phonology Rules
+                    <span class="pull-right badge">{{ctrl.getRuleCount('phonology')}}</span>
+                </li>
+                <li class="list-group-item">
+                    Syllabification Rules
+                    <span class="pull-right badge">{{ctrl.getRuleCount('syllabification')}}</span>
+                </li>
+                <li class="list-group-item">
+                    Stress Rules
+                    <span class="pull-right badge">{{ctrl.getRuleCount('stress')}}</span>
+                </li>
+                <li class="list-group-item">
+                    Vowelisation Rules
+                    <span class="pull-right badge">{{ctrl.getRuleCount('vowelisation')}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div ng-show="tabIndex === 1" style="padding:15px;">
+
+        <div class="row">
+            <div class="col-sm-3">Consonant<span class="badge pull-right">{{ctrl.getPhoneCount('consonant')}}</span>
+            </div>
+        </div>
+
+        <button class="btn btn-primary"
+                ng-click="ctrl.addPhone()">Add Phone
+        </button>
+        <hr>
+
+        <h3>Pulmonic Consonants</h3>
+        <table class="phone-table phone-table-pulmonic">
+            <tr>
+                <th></th>
+                <th colspan="2"
+                    ng-repeat="p in ctrl.getPlaceOptions()"
+                    ng-bind="p.label">
+                </th>
+            </tr>
+            <tr ng-repeat="m in ctrl.getMannerOptions(true)">
+                <td ng-bind="m.label"></td>
+                <td ng-repeat-start="p in ctrl.getPlaceOptions()"
+                    class="voiceless"
+                    ng-class="ctrl.getCssClasses(m, p, false)"
+                    ng-init="ph1 = ctrl.getMatchedPhones(m, p, false);ph2 = ctrl.getMatchedPhones(m, p, true)">
+                    <at-glyph ng-repeat="ph in ph1"
+                              ng-class="{'in-use': ctrl.isInUse(ph.key)}"
+                              ng-click="ctrl.toggleSelection(ph.key)"
+                              title="{{ph.label}}"
+                              key="ph.key"></at-glyph>
+                </td>
+                <td class="voiced"
+                    ng-class="ctrl.getCssClasses(m, p, true)"
+                    ng-repeat-end>
+                    <at-glyph ng-repeat="ph in ph2"
+                              ng-class="{'in-use': ctrl.isInUse(ph.key)}"
+                              ng-click="ctrl.toggleSelection(ph.key)"
+                              title="{{ph.label}}"
+                              key="ph.key"></at-glyph>
+                </td>
+            </tr>
+        </table>
+
+        <h3>Non-pulmonic Consonants</h3>
+        <table class="phone-table phone-table-non-pulmonic">
+            <tr ng-repeat="m in ctrl.getMannerOptions(false)"
+                ng-init="ph1 = ctrl.getMatchedPhones(m, null, false)">
+                <td>{{m.label}}</td>
+                <td>
+                    <at-glyph ng-repeat="ph in ph1"
+                              ng-class="{'in-use': ctrl.isInUse(ph.key)}"
+                              ng-click="ctrl.toggleSelection(ph.key)"
+                              title="{{ph.label}}"
+                              key="ph.key"></at-glyph>
+                </td>
+            </tr>
+        </table>
+
+        <h3>Vowels</h3>
+        <div style="position:relative">
+            <svg width="450" height="330" version="1.1">
+                <!--<rect width="450" height="330" fill="lightblue"></rect>-->
+                <!--<rect y="36" width="450" height="36" fill="lightyellow"></rect>-->
+                <style>
+                    text {
+                        font-family: Times;
+                        font-size: 14px;
+                    }
+                </style>
+                <g transform="translate(100, 22)" style="text-anchor: middle;">
+                    <text x="0">Front</text>
+                    <text x="144">Central</text>
+                    <text x="288">Back</text>
+                </g>
+                <g transform="translate(4, 58)">
+                    <text y="0">Close</text>
+                    <text y="36" fill="transparent">Near-close</text>
+                    <text y="72">Close-mid</text>
+                    <text y="108" fill="transparent">Mid</text>
+                    <text y="144">Open-mid</text>
+                    <text y="180" fill="transparent">Near-open</text>
+                    <text y="216">Open</text>
+                </g>
+                <g transform="translate(170, 310)">
+                    <text>
+                        <tspan x="0" y="-6">Where symbols appear in pairs, the one</tspan>
+                        <tspan x="0" y="10">to the right represents a rounded vowel.</tspan>
+                    </text>
+                </g>
+                <g transform="translate(100, 54)">
+                    <line x1="0" y1="0" x2="288" y2="0" stroke="gray"></line>
+                    <line x1="48" y1="72" x2="288" y2="72" stroke="gray"></line>
+                    <line x1="96" y1="144" x2="288" y2="144" stroke="gray"></line>
+                    <line x1="144" y1="216" x2="288" y2="216" stroke="gray"></line>
+                    <line x1="0" y1="0" x2="144" y2="216" stroke="gray"></line>
+                    <line x1="144" y1="0" x2="216" y2="216" stroke="gray"></line>
+                    <line x1="288" y1="0" x2="288" y2="216" stroke="gray"></line>
+                    <circle cx="0" cy="0" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="144" cy="0" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="288" cy="0" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="48" cy="72" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="168" cy="72" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="288" cy="72" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="96" cy="144" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="192" cy="144" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="288" cy="144" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="144" cy="216" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="216" cy="216" r="6" stroke="white" fill="black" stroke-width="8"/>
+                    <circle cx="288" cy="216" r="6" stroke="white" fill="black" stroke-width="8"/>
+                </g>
+            </svg>
+            <at-glyph ng-repeat="key in getVowelKeys()"
+                      ng-class="{'in-use': ctrl.isInUse(key)}"
+                      ng-click="ctrl.toggleSelection(key)"
+                      key="key"
+                      style="{{getStyle(key)}}"></at-glyph>
+        </div>
+
+
+        <hr>
+        <!--<at-consonant-pane alphabet="alphabet"-->
+        <!--phones="phones"></at-consonant-pane>-->
+    </div>
+    <div ng-show="tabIndex === 2" style="padding:15px;">
+        <h2>Phones</h2>
+        <h3>Consonant</h3>
+        <table class="table table-hover">
+            <tr>
+                <th>No.</th>
+                <th>IPA Symbol</th>
+                <th ng-show="false">Type</th>
+                <th>X-SAMPA</th>
+                <th>ABH</th>
+                <th>Description</th>
+                <th>Orthography</th>
+                <th>Romanisation</th>
+                <th>Word Example</th>
+                <th>Romanised Example</th>
+                <th>Transcription Example</th>
+            </tr>
+            <tr ng-repeat="ph in getConsonants()">
+                <td>{{$index+1}}</td>
+                <td>{{ph.symbol}}</td>
+                <td ng-show="false">{{ph.type}}</td>
+                <td>{{ph.xSampa}}</td>
+                <td ng-class="{danger: ph.xSampa != ph.sampa}">{{ph.sampa}}</td>
+                <td>{{ph.label}}</td>
+                <td>{{ph.orthography}}</td>
+                <td>{{ph.romanization}}</td>
+                <td>{{ph.exampleWord}}</td>
+                <td>{{ph.exampleRomanization}}</td>
+                <td>{{ph.exampleTranscription}}</td>
+            </tr>
+        </table>
+        <h3>Vowel</h3>
+        <table class="table table-hover">
+            <tr>
+                <th>IPA Symbol</th>
+                <th ng-show="false">Type</th>
+                <th>X-SAMPA</th>
+                <th>ABH</th>
+                <th>Description</th>
+                <th>Orthography</th>
+                <th>Romanisation</th>
+                <th>Word Example</th>
+                <th>Romanised Example</th>
+                <th>Transcription Example</th>
+            </tr>
+            <tr ng-repeat="ph in getVowels()">
+                <td>{{ph.symbol}}</td>
+                <td ng-show="false">{{ph.type}}</td>
+                <td>{{ph.xSampa}}</td>
+                <td ng-class="{danger: ph.xSampa != ph.sampa}">{{ph.sampa}}</td>
+                <td>{{ctrl.getPhoneDescription(ph)}}</td>
+                <td>{{ph.orthography}}</td>
+                <td>{{ph.romanization}}</td>
+                <td>{{ph.exampleWord}}</td>
+                <td>{{ph.exampleRomanization}}</td>
+                <td>{{ph.exampleTranscription}}</td>
+            </tr>
+        </table>
+        <h3>Others</h3>
+        <table class="table table-hover">
+            <tr>
+                <th>IPA Symbol</th>
+                <th ng-show="false">Type</th>
+                <th>X-SAMPA</th>
+                <th>ABH</th>
+                <th>Description</th>
+                <th>Orthography</th>
+                <th>Romanisation</th>
+                <th>Word Example</th>
+                <th>Romanised Example</th>
+                <th>Transcription Example</th>
+            </tr>
+            <tr ng-repeat="ph in getOthers()">
+                <td>{{ph.symbol}}</td>
+                <td ng-show="false">{{ph.type}}</td>
+                <td>{{ph.xSampa}}</td>
+                <td ng-class="{danger: ph.xSampa != ph.sampa}">{{ph.sampa}}</td>
+                <td>{{ctrl.getPhoneDescription(ph)}}</td>
+                <td>{{ph.orthography}}</td>
+                <td>{{ph.romanization}}</td>
+                <td>{{ph.exampleWord}}</td>
+                <td>{{ph.exampleRomanization}}</td>
+                <td>{{ph.exampleTranscription}}</td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="tabIndex === 3">
+        <div ng-hide="alphabet.phonologyRules.length">
+            No rules defined
+        </div>
+        <table class="table table-hover" ng-show="alphabet.phonologyRules.length">
+            <tr>
+                <th>Rule #</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Sequence</th>
+                <th>Actions</th>
+            </tr>
+            <tr ng-repeat="r in alphabet.phonologyRules | orderBy:'ruleId'"
+                title="{{r|json}}">
+                <td>{{$index+1}}</td>
+                <td>{{r.name}}</td>
+                <td>{{r.description}}</td>
+                <td>
+                    <ul class="list-group">
+                        <li class="list-group-item"
+                            ng-repeat="seq in r.sequences">
+                            <input ng-model="seq.incorrect"> to <input ng-model="seq.correct">
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <i class="glyphicon glyphicon-edit"></i>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input></td>
+                <td><input></td>
+                <td><input> to <input></td>
+                <td>
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="tabIndex === 4">
+        <div ng-hide="alphabet.syllabificationRules.length">
+            No rules defined
+        </div>
+        <table class="table table-hover" ng-show="alphabet.syllabificationRules.length">
+            <tr>
+                <th>Rule #</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Sequence</th>
+                <th>Actions</th>
+            </tr>
+            <tr ng-repeat="r in alphabet.syllabificationRules | orderBy:'ruleId'"
+                title="{{r|json}}">
+                <td>{{$index+1}}</td>
+                <td>{{r.name}}</td>
+                <td>{{r.description}}</td>
+                <td>
+                    <ul class="list-group">
+                        <li class="list-group-item"
+                            ng-repeat="seq in r.sequences">
+                            <!--<input ng-model="seq.incorrect"> to -->
+                            <input ng-model="seq.correct">
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <i class="glyphicon glyphicon-edit"></i>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input></td>
+                <td><input></td>
+                <td><input> to <input></td>
+                <td>
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="tabIndex === 5">
+        <div ng-hide="alphabet.stressRules.length">
+            No rules defined
+        </div>
+        <table class="table table-hover" ng-show="alphabet.stressRules.length">
+            <tr>
+                <th>Rule #</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Sequence</th>
+                <th>Actions</th>
+            </tr>
+            <tr ng-repeat="r in alphabet.stressRules | orderBy:'ruleId'"
+                title="{{r|json}}">
+                <td>{{$index+1}}</td>
+                <td>{{r.name}}</td>
+                <td>{{r.description}}</td>
+                <td>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <!--ng-repeat="seq in r.sequences"-->
+                            <!--<input ng-model="seq.incorrect"> to-->
+                            <input ng-model="r.sequence">
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <i class="glyphicon glyphicon-edit"></i>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input></td>
+                <td><input></td>
+                <td><input></td>
+                <td>
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="tabIndex === 6">
+        <div ng-hide="alphabet.vowelisationRules.length">
+            No rules defined
+        </div>
+        <table class="table table-hover" ng-show="alphabet.vowelisationRules.length">
+            <tr>
+                <th>Rule #</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Sequence</th>
+                <th>Actions</th>
+            </tr>
+            <tr ng-repeat="r in alphabet.vowelisationRules | orderBy:'ruleId'"
+                title="{{r|json}}">
+                <td>{{$index+1}}</td>
+                <td>{{r.name}}</td>
+                <td>{{r.description}}</td>
+                <td>
+                    <ul class="list-group">
+                        <li class="list-group-item"
+                            ng-repeat="seq in r.sequences">
+                            <input ng-model="seq.incorrect"> to <input ng-model="seq.correct">
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <i class="glyphicon glyphicon-edit"></i>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input></td>
+                <td><input></td>
+                <td><input> to <input></td>
+                <td>
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</section>

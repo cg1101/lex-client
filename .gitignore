@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+.*
+/alphabets
+/bower_components
+/build
+/css
+/del
+/node_modules
+/scripts
+/phone-chart.svg

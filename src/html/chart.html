@@ -1,0 +1,643 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+-->
+<style>
+    body {
+        font-size: 14px;
+        /*border: thin solid gray;*/
+        width: 1024px;
+        margin: 0;
+        padding: 12px 10px;
+    }
+
+    section {
+        margin: 0 0 10px 0;
+        display: inline-block;
+        /*background-color: lightgoldenrodyellow;*/
+    }
+
+    section:hover {
+        /*background-color: lightgoldenrodyellow;*/
+    }
+
+    section.sec_vowels {
+        float: right;
+        display: inline-block;
+        /*left:555px;*/
+        /*top:436px;*/
+        display: inline-block;
+        width: 450px;
+        height: 350px;
+    }
+
+    section.sec_suprasegmentals {
+        float: right;
+        clear: right;
+        width: 290px;
+    }
+
+    section.sec_tones {
+        float: right;
+        clear: right;
+        width: 290px;
+    }
+
+    at-phone-chart h1 {
+        text-align: center;
+        font-size: 18px;
+        font-weight: normal;
+        text-transform: uppercase;
+    }
+
+    at-phone-chart h1 span {
+        text-transform: none;
+    }
+
+    at-phone-chart h2 {
+        margin: 4px;
+        font-size: 16px;
+        font-weight: normal;
+        text-transform: uppercase;
+    }
+
+    i, b, at-phone {
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        margin: 0 4px;
+        vertical-align: middle;
+        border: dotted transparent 2px;
+    }
+
+    i, at-phone {
+        font-style: normal;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: white;
+    }
+
+    i.in-use, at-phone.in-use {
+        background-color: lightgreen;
+    }
+
+    i:hover, at-phone:hover {
+        border-color: lightgray;
+    }
+    
+    at-phone-chart.symbol i, at-phone-chart.symbol at-phone {
+        font-size: 28px;
+    }
+
+    i:hover, at-phone:hover {
+        /*background-color: lightgreen;*/
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    th {
+        font-weight: normal;
+        text-align: center;
+    }
+
+    th, td {
+        height: 32px;
+        border: transparent solid 2px;
+        border-spacing: 0;
+        line-height: 16px;
+    }
+
+    .U {
+        text-transform: uppercase;
+    }
+
+    table.tb1 {
+        font-size: 16px;
+        width: 1024px;
+        table-layout: fixed;
+        border-width: 2px;
+        border-color: gray;
+        border-style: solid;
+    }
+
+    table.tb1 td, table.tb1 th {
+        border-color: gray;
+    }
+
+    table.tb1 td.na {
+        background-color: lightgray;
+    }
+
+    table.tb1 th[colspan="2"], table.tb1 td[colspan="2"] {
+        width: 80px;
+    }
+
+    table.tb1 td:first-child {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    table.tb2 th, table.tb2 td {
+        border-color: gray;
+    }
+
+    table.tb2 td {
+        width: 168px;
+        border-bottom-color: transparent;
+    }
+
+    table.tb2 tr:last-child td {
+        border-bottom-color: gray;
+    }
+
+    table.tb3 td:first-child {
+        width: 240px;
+    }
+
+    table.tb4 td {
+        width: 236px;
+        border-color: gray;
+    }
+
+    table.tb5 {
+        overflow: hidden;
+        float: left;
+        position: relative;
+        top: -310px;
+    }
+
+    table.tb5 th, table.tb5 td {
+        text-align: left;
+    }
+
+    table.tb5 span {
+        display: inline-block;
+    }
+
+    table.tb5 tr:last-child div {
+        margin: 2px 0 5px 160px;
+        display: inline-block;
+        vertical-align: middle;
+
+    }
+
+    div.header {
+        margin: 4px 30px 8px 30px;
+        text-align: justify;
+        padding: 0;
+    }
+</style>
+<h1>The International Phonetic Alphabet <span>(revised to 2005)</span></h1>
+<section class="sec_consonants">
+    <h2>Consonants (Pulmonic)</h2>
+    <table class="tb1" border="1">
+        <tr>
+            <th colspan="3"></th>
+            <th colspan="2">Bilabial</th>
+            <th colspan="2">Labiodental</th>
+            <th colspan="2">Dental</th>
+            <th colspan="2">Alveolar</th>
+            <th colspan="2">Postalveolar</th>
+            <th colspan="2">Retroflex</th>
+            <th colspan="2">Palatal</th>
+            <th colspan="2">Velar</th>
+            <th colspan="2">Uvular</th>
+            <th colspan="2">Pharyngeal</th>
+            <th colspan="2">Glottal</th>
+        </tr>
+        <tr>
+            <td colspan="3">Plosive</td>
+            <td colspan="2"><i at-phone="101"></i><i at-phone="102"></i></td>
+            <td colspan="2"></td>
+            <td colspan="6"><b style="margin-left:48px;"></b><i at-phone="103"></i><i at-phone="104"></i></td>
+            <td colspan="2"><i at-phone="105"></i><i at-phone="106"></i></td>
+            <td colspan="2"><i at-phone="107"></i><i at-phone="108"></i></td>
+            <td colspan="2"><i at-phone="109"></i><i at-phone="110"></i></td>
+            <td colspan="2"><i at-phone="111"></i><i at-phone="112"></i></td>
+            <td></td>
+            <td class="na"></td>
+            <td><i at-phone="113"></i></td>
+            <td class="na"></td>
+        </tr>
+        <tr>
+            <td colspan="3">Nasal</td>
+            <td colspan="2"><b></b><i at-phone="114"></i></td>
+            <td colspan="2"><b></b><i at-phone="115"></i></td>
+            <td colspan="6"><b style="margin-left:88px;"></b><i at-phone="116"></i></td>
+            <td colspan="2"><b></b><i at-phone="117"></i></td>
+            <td colspan="2"><b></b><i at-phone="118"></i></td>
+            <td colspan="2"><b></b><i at-phone="119"></i></td>
+            <td colspan="2"><b></b><i at-phone="120"></i></td>
+            <td colspan="2" class="na"></td>
+            <td colspan="2" class="na"></td>
+        </tr>
+        <tr>
+            <td colspan="3">Trill</td>
+            <td colspan="2"><b></b><i at-phone="121"></i></td>
+            <td colspan="2"></td>
+            <td colspan="6"><b style="margin-left:88px;"></b><i at-phone="122"></i></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2" class="na"></td>
+            <td colspan="2"><b></b><i at-phone="123"></i></td>
+            <td colspan="2"></td>
+            <td colspan="2" class="na"></td>
+        </tr>
+        <tr>
+            <td colspan="3">Tap or Flap</td>
+            <td colspan="2"></td>
+            <td colspan="2"><b></b><i at-phone="184"></i></td>
+            <td colspan="6"><b style="margin-left:88px;"></b><i at-phone="124"></i></td>
+            <td colspan="2"><b></b><i at-phone="125"></i></td>
+            <td colspan="2"></td>
+            <td colspan="2" class="na"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2" class="na"></td>
+        </tr>
+        <tr>
+            <td colspan="3">Fricative</td>
+            <td colspan="2"><i at-phone="126"></i><i at-phone="127"></i></td>
+            <td colspan="2"><i at-phone="128"></i><i at-phone="129"></i></td>
+            <td colspan="2"><i at-phone="130"></i><i at-phone="131"></i></td>
+            <td colspan="2"><i at-phone="132"></i><i at-phone="133"></i></td>
+            <td colspan="2"><i at-phone="134"></i><i at-phone="135"></i></td>
+            <td colspan="2"><i at-phone="136"></i><i at-phone="137"></i></td>
+            <td colspan="2"><i at-phone="138"></i><i at-phone="139"></i></td>
+            <td colspan="2"><i at-phone="140"></i><i at-phone="141"></i></td>
+            <td colspan="2"><i at-phone="142"></i><i at-phone="143"></i></td>
+            <td colspan="2"><i at-phone="144"></i><i at-phone="145"></i></td>
+            <td colspan="2"><i at-phone="146"></i><i at-phone="147"></i></td>
+        </tr>
+        <tr>
+            <td colspan="3">Lateral fricative</td>
+            <td colspan="2" class="na"></td>
+            <td colspan="2" class="na"></td>
+            <td colspan="6"><b style="margin-left:48px;"></b><i at-phone="148"></i><i at-phone="149"></i></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2" class="na"></td>
+            <td colspan="2" class="na"></td>
+        </tr>
+        <tr>
+            <td colspan="3">Approximant</td>
+            <td colspan="2"></td>
+            <td colspan="2"><b></b><i at-phone="150"></i></td>
+            <td colspan="6"><b style="margin-left:88px;"></b><i at-phone="151"></i></td>
+            <td colspan="2"><b></b><i at-phone="152"></i></td>
+            <td colspan="2"><b></b><i at-phone="153"></i></td>
+            <td colspan="2"><b></b><i at-phone="154"></i></td>
+            <td colspan="2"></td>
+            <td colspan="2"></td>
+            <td colspan="2" class="na"></td>
+        </tr>
+        <tr>
+            <td colspan="3">Lateral approximant</td>
+            <td colspan="2" class="na"></td>
+            <td colspan="2" class="na"></td>
+            <td colspan="6"><b style="margin-left:88px;"></b><i at-phone="155"></i></td>
+            <td colspan="2"><b></b><i at-phone="156"></i></td>
+            <td colspan="2"><b></b><i at-phone="157"></i></td>
+            <td colspan="2"><b></b><i at-phone="158"></i></td>
+            <td colspan="2"></td>
+            <td colspan="2" class="na"></td>
+            <td colspan="2" class="na"></td>
+        </tr>
+    </table>
+    <p style="padding-left:2em;">
+        Where symbols appear in pairs, the one to the right represents a voiced
+        consonant. Shaded area denote articulations judged impossible.</p>
+</section>
+<section class="sec_vowels">
+    <h2>Vowels</h2>
+    <svg width="450" height="300" version="1.1">
+        <!--<rect width="450" height="300" fill="lightblue"></rect>-->
+        <g transform="translate(100, 46)">
+            <line x1="0" y1="0" x2="286" y2="0" stroke="gray"></line>
+            <line x1="48" y1="72" x2="286" y2="72" stroke="gray"></line>
+            <line x1="96" y1="144" x2="286" y2="144" stroke="gray"></line>
+            <line x1="144" y1="216" x2="286" y2="216" stroke="gray"></line>
+            <line x1="0" y1="0" x2="144" y2="216" stroke="gray"></line>
+            <line x1="143" y1="0" x2="215" y2="216" stroke="gray"></line>
+            <line x1="286" y1="0" x2="286" y2="216" stroke="gray"></line>
+            <circle cx="0" cy="0" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="143" cy="0" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="286" cy="0" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="48" cy="72" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="167" cy="72" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="286" cy="72" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="96" cy="144" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="191" cy="144" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="286" cy="144" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="144" cy="216" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="215" cy="216" r="2" stroke="black" stroke-width="3"/>
+            <circle cx="286" cy="216" r="2" stroke="black" stroke-width="3"/>
+        </g>
+    </svg>
+    <table class="tb5">
+        <tr>
+            <th>
+                <span style="width:74px;"></span>
+                Front
+                <span style="width:104px;"></span>
+                Central
+                <span style="width:104px;"></span>
+                Back
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <span style="width:50px;">Close</span>
+                <i at-phone="301"></i>
+                <i at-phone="309"></i>
+                <span style="width: 52px;"></span>
+                <i at-phone="317"></i>
+                <i at-phone="318"></i>
+                <span style="width: 52px;"></span>
+                <i at-phone="316"></i>
+                <i at-phone="308"></i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="width: 120px;"></span>
+                <i at-phone="319"></i>
+                <i at-phone="320"></i>
+                <span style="width:92px;"></span>
+                <i at-phone="321"></i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="width: 98px;">Close-mid</span>
+                <i at-phone="302"></i>
+                <i at-phone="310"></i>
+                <span style="width: 28px;"></span>
+                <i at-phone="397"></i>
+                <i at-phone="323"></i>
+                <span style="width: 28px;"></span>
+                <i at-phone="315"></i>
+                <i at-phone="307"></i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="width: 250px;"></span>
+                <i at-phone="322"></i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="width: 146px;">Open-mid</span>
+                <i at-phone="303"></i>
+                <i at-phone="311"></i>
+                <span style="width: 4px;"></span>
+                <i at-phone="326"></i>
+                <i at-phone="395"></i>
+                <span style="width: 4px;"></span>
+                <i at-phone="314"></i>
+                <i at-phone="306"></i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="width: 170px;"></span>
+                <i at-phone="325"></i>
+                <b style="width: 48px;"></b>
+                <i at-phone="324"></i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="width: 194px;">Open</span>
+                <i at-phone="304"></i>
+                <i at-phone="312"></i>
+                <span style="width: 52px;"></span>
+                <i at-phone="305"></i>
+                <i at-phone="313"></i>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>Where symbols appear in
+                    pairs, the one <br>
+                    to the right represents a rounded vowel.
+                </div>
+            </td>
+        </tr>
+    </table>
+</section>
+<section class="sec_suprasegmentals">
+    <h2>Suprasegmentals</h2>
+    <table>
+        <tr>
+            <td><i at-phone="501"></i>Primary Stress</td>
+        </tr>
+        <tr>
+            <td><i at-phone="502"></i>Secondary Stress</td>
+        </tr>
+        <tr>
+            <td><i at-phone="503"></i>Long</td>
+        </tr>
+        <tr>
+            <td><i at-phone="504"></i>Half-long</td>
+        </tr>
+        <tr>
+            <td><i at-phone="505"></i>Extra-short</td>
+        </tr>
+        <tr>
+            <td><i at-phone="507"></i>Minor (foot) group</td>
+        </tr>
+        <tr>
+            <td><i at-phone="508"></i>Major (intonation) group</td>
+        </tr>
+        <tr>
+            <td><i at-phone="506"></i>Syllable break</td>
+        </tr>
+        <tr>
+            <td><i at-phone="509"></i>Linking (absence of a break)</td>
+        </tr>
+    </table>
+</section>
+<section class="sec_tones">
+    <h2>Tones and words accents</h2>
+    <div class="header">
+        <span class="U">Level</span>
+        <span style="display:inline-block;width:80px;"></span>
+        <span class="U">Contour</span>
+    </div>
+    <table>
+        <tr>
+            <td><i at-phone="512"></i><i at-phone="519"></i>Extra high</td>
+            <td><i at-phone="524"></i><i at-phone="529"></i>Rising</td>
+        </tr>
+        <tr>
+            <td><i at-phone="513"></i><i at-phone="520"></i>High</td>
+            <td><i at-phone="525"></i><i at-phone="530"></i>Falling</td>
+        </tr>
+        <tr>
+            <td><i at-phone="514"></i><i at-phone="521"></i>Mid</td>
+            <td><i at-phone="526"></i>High rising</td>
+        </tr>
+        <tr>
+            <td><i at-phone="515"></i><i at-phone="522"></i>Low</td>
+            <td><i at-phone="527"></i>Low rising</td>
+        </tr>
+        <tr>
+            <td><i at-phone="516"></i><i at-phone="523"></i>Extra Low</td>
+            <td><i at-phone="528"></i>Rising-falling</td>
+        </tr>
+        <tr>
+            <td><i at-phone="517"></i>Downstep</td>
+            <td><i at-phone="510"></i>Global rise</td>
+        </tr>
+        <tr>
+            <td><i at-phone="518"></i>Upstep</td>
+            <td><i at-phone="511"></i>Global fall</td>
+        </tr>
+    </table>
+</section>
+<section class="sec_consonants_2">
+    <h2>Consonants (Non-pulmonic)</h2>
+    <table class="tb2">
+        <tr>
+            <th>Clicks</th>
+            <th>Voiced implosives</th>
+            <th>Ejectives</th>
+        </tr>
+        <tr>
+            <td><i at-phone="176"></i>Bilabial</td>
+            <td><i at-phone="160"></i>Bilabial</td>
+            <td><i at-phone="401"></i>Examples</td>
+        </tr>
+        <tr>
+            <td><i at-phone="177"></i>Dental</td>
+            <td><i at-phone="162"></i>Dental/alveolar</td>
+            <td><i at-phone="101+401"></i>Bilabial</td>
+        </tr>
+        <tr>
+            <td><i at-phone="178"></i>(Post)alveolar</td>
+            <td><i at-phone="164"></i>Palatal</td>
+            <td><i at-phone="103+401"></i>Dental/alveolar</td>
+        </tr>
+        <tr>
+            <td><i at-phone="179"></i>Palatoalveolar</td>
+            <td><i at-phone="166"></i>Velar</td>
+            <td><i at-phone="109+401"></i>Velar</td>
+        </tr>
+        <tr>
+            <td><i at-phone="180"></i>Alveolar lateral</td>
+            <td><i at-phone="168"></i>Uvular</td>
+            <td><i at-phone="132+401"></i>Aveolar fricative</td>
+        </tr>
+    </table>
+</section>
+<section class="sec_other_symbols">
+    <h2>Other Symbols</h2>
+    <table class="tb3">
+        <tr>
+            <td><i at-phone="169"></i>Voiceless labial-velar fricative</td>
+            <td><i at-phone="182"></i><i at-phone="183"></i>Alveolo-palatal fricatives</td>
+        </tr>
+        <tr>
+            <td><i at-phone="170"></i>Voiced labial-velar approximant</td>
+            <td><b></b><i at-phone="181"></i>Alveolar lateral flap</td>
+        </tr>
+        <tr>
+            <td><i at-phone="171"></i>Voiced labial-palatal approximant</td>
+            <td><i at-phone="175"></i><b></b>Simultaneous <i at-phone="134"></i>
+                and <i at-phone="140"></i></td>
+        </tr>
+        <tr>
+            <td><i at-phone="172"></i>Voiceless epiglottal fricative</td>
+            <td rowspan="3">
+                <div style="display:inline-block;vertical-align: middle;padding-left:4px;">
+                    Affricates and double articulations <br>
+                    can be represented by two symbols <br>
+                    joined by a tie bar if necessary.
+                </div>
+                <i at-phone="433A+103+132"></i>
+                <!--<i at-phone="433"></i>-->
+                <i at-phone="433B+109+101"></i>
+            </td>
+        </tr>
+        <tr>
+            <td><i at-phone="174"></i>Voiced epiglottal fricative</td>
+        </tr>
+        <tr>
+            <td><i at-phone="173"></i>Epiglottal plosive</td>
+        </tr>
+    </table>
+</section>
+<section class="sec_diacritics">
+    <h2>Diacritics</h2>
+    <table class="tb4">
+        <tr>
+            <td><i at-phone="402"></i>Voiceless</td>
+            <td><i at-phone="405"></i>Breathy voiced</td>
+            <td><i at-phone="408"></i>Dental</td>
+        </tr>
+        <tr>
+            <td><i at-phone="403"></i>Voiced</td>
+            <td><i at-phone="406"></i>Creaky voiced</td>
+            <td><i at-phone="409"></i>Apical</td>
+        </tr>
+        <tr>
+            <td><i at-phone="404"></i>Aspirated</td>
+            <td><i at-phone="407"></i>Linguolabial</td>
+            <td><i at-phone="410"></i>Laminal</td>
+        </tr>
+        <tr>
+            <td><i at-phone="411"></i>More rounded</td>
+            <td><i at-phone="420"></i>Labialized</td>
+            <td><i at-phone="424"></i>Nasalized</td>
+        </tr>
+        <tr>
+            <td><i at-phone="412"></i>Less rounded</td>
+            <td><i at-phone="421"></i>Palatalized</td>
+            <td><i at-phone="425"></i>Nasal release</td>
+        </tr>
+        <tr>
+            <td><i at-phone="413"></i>Advanced</td>
+            <td><i at-phone="422"></i>Velarized</td>
+            <td><i at-phone="426"></i>Lateral release</td>
+        </tr>
+        <tr>
+            <td><i at-phone="414"></i>Retracted</td>
+            <td><i at-phone="423"></i>Pharyngealized</td>
+            <td><i at-phone="427"></i>No audible release</td>
+        </tr>
+        <tr>
+            <td><i at-phone="415"></i>Centralized</td>
+            <td colspan="2"><i at-phone="428"></i>Velarized or pharyngealized</td>
+        </tr>
+        <tr>
+            <td><i at-phone="416"></i>Mid-centralized</td>
+            <td colspan="2"><i at-phone="429"></i>Raised</td>
+        </tr>
+        <tr>
+            <td><i at-phone="431"></i>Syllabic</td>
+            <td colspan="2"><i at-phone="430"></i>Lowered</td>
+        </tr>
+        <tr>
+            <td><i at-phone="432"></i>Non-syllabic</td>
+            <td colspan="2"><i at-phone="417"></i>Advanced Tongue Root</td>
+        </tr>
+        <tr>
+            <td><i at-phone="419"></i>Syllabic</td>
+            <td colspan="2"><i at-phone="418"></i>Retracted Tongue Root</td>
+        </tr>
+    </table>
+</section>
+<!--
+</body>
+</html>-->
