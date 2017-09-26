@@ -24,14 +24,13 @@
         </tr>
     </table>
 
-    <div at-lex-data-input when-data-loaded="dataLoaded(filename, type, data)"></div>
+    <div at-lex-data-input="dataBuffer"></div>
 
-    {{inputBuffer}}
-    <div>
+    <div ng-show="dataBuffer.length">
         <h2>Data</h2>
-        buffer length: {{inputBuffer.length}}, {{count}}
+        buffer length: {{dataBuffer.length}}, {{count}}
         <table class="table">
-            <tr ng-repeat="i in getDataPacks()">
+            <tr ng-repeat="i in dataBuffer">
                 <td>{{i.filename}}</td>
                 <td>{{i.type}}</td>
                 <td>{{i.data}}</td>
