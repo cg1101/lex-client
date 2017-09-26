@@ -1,5 +1,6 @@
 body {
   font-family: 'Open Sans', sans-serif;
+  padding-bottom: 30px;
 }
 
 header[at-header-bar] {
@@ -299,5 +300,32 @@ at-lex-data-input, *[at-lex-data-input] {
   }
   &.drop-not-okay {
     background-color: red;
+  }
+}
+
+uib-tab-heading {
+  & > span:first-child {
+    display: inline-block;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  span.close-tab {
+    float: right;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}
+
+div.data-preview-body {
+  padding: 10px;
+  border: thin solid lightgray;
+  border-top-width: 0;
+  min-height: 200px;
+  pre.raw-data {
+    max-height: 300px;
+    overflow: scroll;
+    margin: 10px 0 0 0;
   }
 }

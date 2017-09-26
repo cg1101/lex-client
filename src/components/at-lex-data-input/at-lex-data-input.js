@@ -50,7 +50,7 @@ mod.directive('atLexDataInput', function ($log, $timeout) {
                     angular.forEach(dt.files, loadFile);
                 } else {
                     var data = dt.getData('text/plain');
-                    dataLoaded(null, 'text/plain', data);
+                    dataLoaded(null, 'text/plain', data.length, data);
                 }
             }
 
@@ -58,16 +58,17 @@ mod.directive('atLexDataInput', function ($log, $timeout) {
                 var reader = new FileReader(file);
                 reader.onload = function (ev) {
                     var data = ev.target.result;
-                    dataLoaded(file.name, file.type || 'text/plain', data);
+                    dataLoaded(file.name, file.type || 'text/plain', file.size, data);
                 };
                 reader.readAsText(file);
             }
 
-            function dataLoaded(filename, type, data) {
+            function dataLoaded(filename, type, size, data) {
                 $timeout(function () {
                     inputBuffer.push({
                         filename: filename,
                         type: type,
+                        size: size,
                         data: data
                     });
                 }, 0);

@@ -26,15 +26,27 @@
 
     <div at-lex-data-input="dataBuffer"></div>
 
-    <div ng-show="dataBuffer.length">
-        <h2>Data</h2>
-        buffer length: {{dataBuffer.length}}, {{count}}
-        <table class="table">
-            <tr ng-repeat="i in dataBuffer">
-                <td>{{i.filename}}</td>
-                <td>{{i.type}}</td>
-                <td>{{i.data}}</td>
-            </tr>
-        </table>
+    <ul></ul>
+
+    <uib-tabset class="data-preview" active="tabIndex" ng-show="dataBuffer.length">
+        <uib-tab ng-repeat="i in dataBuffer">
+            <uib-tab-heading>
+                <span title="{{getDataTabTitle(i)}}">{{i.filename || '&lt;no name&gt;'}}</span>
+                <span class="close-tab"
+                      ng-click="closeDataTab($index)">&times;</span>
+            </uib-tab-heading>
+        </uib-tab>
+    </uib-tabset>
+
+    <div class="data-preview-body" ng-show="dataBuffer.length">
+
+        <uib-tabset type="pills" active="innerTabIndex">
+            <uib-tab heading="Preview"></uib-tab>
+            <uib-tab heading="Raw Data"></uib-tab>
+        </uib-tabset>
+
+        <pre ng-show="innerTabIndex===1"
+             class="raw-data">{{dataBuffer[tabIndex].data}}</pre>
     </div>
+
 </section>

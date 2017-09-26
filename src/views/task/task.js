@@ -1,6 +1,6 @@
 var mod = angular.module('at.views.task', []);
 
-mod.controller('TaskCtrl', function ($scope, Lex, $q, taskId, $log) {
+mod.controller('TaskCtrl', function ($scope, Lex, $q, taskId, $log, $timeout) {
 
     (function init(delay) {
         $scope.context = {isLoading: true};
@@ -19,6 +19,20 @@ mod.controller('TaskCtrl', function ($scope, Lex, $q, taskId, $log) {
         })
     })(0);
 
+    $scope.getDataTabTitle = function (i) {
+        return 'filename: ' + (i.filename || 'n/a') + '\n' +
+            'type: ' + (i.type || 'n/a') + '\n' +
+            'size: ' + i.size;
+    };
+    $scope.closeDataTab = function (index) {
+        $log.debug('trying to delete tab #' + index);
+        $timeout(function () {
+            var newIndex = $scope.tabIndex;
+            if (confirm('Do you want to close this tab?')) {
+                $scope.dataBuffer.splice(index, 1);
+            }
+        });
+    };
 });
 
 mod.config(function ($stateProvider) {
