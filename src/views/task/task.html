@@ -24,7 +24,18 @@
         </tr>
     </table>
 
-    <div class="drag-n-drop-area">
-        Drop data file here
+    <div at-lex-data-input when-data-loaded="dataLoaded(filename, type, data)"></div>
+
+    {{inputBuffer}}
+    <div>
+        <h2>Data</h2>
+        buffer length: {{inputBuffer.length}}, {{count}}
+        <table class="table">
+            <tr ng-repeat="i in getDataPacks()">
+                <td>{{i.filename}}</td>
+                <td>{{i.type}}</td>
+                <td>{{i.data}}</td>
+            </tr>
+        </table>
     </div>
 </section>
