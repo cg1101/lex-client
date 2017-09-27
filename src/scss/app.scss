@@ -329,3 +329,35 @@ div.data-preview-body {
     margin: 10px 0 0 0;
   }
 }
+
+td[colspan="5"] {
+  background-color: rgb(245, 245, 245);
+}
+
+div.lex-work-pane {
+  & h1 {
+    display: block;
+    width: 1.5em;
+    min-height: 1.5em;
+    border-radius: 5px;
+    float: left;
+    margin: 0 10px 10px 0;
+    border: solid lightgray thin;
+    text-align: center;
+    font-size: 36pt;
+    padding-top: 10px;
+  }
+  & span.headword {
+    font-size: 50px;
+  }
+
+  & div.correction {
+    clear: both;
+  }
+}
+
+.errors-detected {
+  background-image: url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=);
+  background-position: bottom;
+  background-repeat: repeat-x;
+}

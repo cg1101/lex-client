@@ -12,8 +12,7 @@ mod.directive('atLexDataInput', function ($log, $timeout) {
         templateUrl: '/static/html/components/at-lex-data-input/at-lex-data-input.html',
         link: function (scope, iElement, iAttrs, ctrls) {
             var element = iElement[0],
-                acceptableDataTypes = ['Files', 'text/plain'],
-                inputBuffer = scope.inputBuffer;
+                acceptableDataTypes = ['Files', 'text/plain'];
 
             function dragEnter(event) {
                 var dt = event.originalEvent.dataTransfer,
