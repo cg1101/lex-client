@@ -7,7 +7,7 @@ mod.directive('atLexDataInput', function ($log, $timeout) {
     return {
         restrict: 'EA',
         scope: {
-            inputBuffer: '=atLexDataInput'
+            dataLoaded: '&atLexDataInput'
         },
         templateUrl: '/static/html/components/at-lex-data-input/at-lex-data-input.html',
         link: function (scope, iElement, iAttrs, ctrls) {
@@ -65,13 +65,13 @@ mod.directive('atLexDataInput', function ($log, $timeout) {
 
             function dataLoaded(filename, type, size, data) {
                 $timeout(function () {
-                    inputBuffer.push({
+                    scope.dataLoaded({
                         filename: filename,
                         type: type,
                         size: size,
                         data: data
                     });
-                }, 0);
+                });
             }
 
             iElement.on('dragenter', dragEnter);

@@ -24,14 +24,16 @@
         </tr>
     </table>
 
-    <div at-lex-data-input="dataBuffer"></div>
+    <div at-lex-data-input="ctrl.dataLoaded(filename, type, size, data)"></div>
 
     <ul></ul>
 
-    <uib-tabset class="data-preview" active="tabIndex" ng-show="dataBuffer.length">
-        <uib-tab ng-repeat="i in dataBuffer">
+    <uib-tabset class="data-preview"
+                ng-show="dataBuffer.length">
+        <uib-tab ng-repeat="i in dataBuffer" select="setDataPack(i)">
             <uib-tab-heading>
-                <span title="{{getDataTabTitle(i)}}">{{i.filename || '&lt;no name&gt;'}}</span>
+                <span title="{{getDataTabTitle(i)}}">{{$index}}
+                    {{i.filename || '&lt;no name&gt;'}}</span>
                 <span class="close-tab"
                       ng-click="closeDataTab($index)">&times;</span>
             </uib-tab-heading>
@@ -41,12 +43,32 @@
     <div class="data-preview-body" ng-show="dataBuffer.length">
 
         <uib-tabset type="pills" active="innerTabIndex">
-            <uib-tab heading="Preview"></uib-tab>
-            <uib-tab heading="Raw Data"></uib-tab>
+            <uib-tab heading="Preview" index="0"></uib-tab>
+            <uib-tab heading="Raw Data" index="1"></uib-tab>
         </uib-tabset>
 
-        <pre ng-show="innerTabIndex===1"
-             class="raw-data">{{dataBuffer[tabIndex].data}}</pre>
+        <hr>
+        <div class="btn-toolbar">
+            <button class="btn btn-primary"
+                    ng-click="ctrl.saveData()">Upload
+            </button>
+        </div>
+
+        <ul></ul>
+        <table class="table" ng-show="innerTabIndex === 0">
+            <tr>
+                <th ng-repeat="c in dataPack.cols">{{c}}</th>
+            </tr>
+            <tr ng-repeat="row in dataPack.parsedData">
+                <!--<td>{{row}}</td>-->
+                <td ng-repeat="i in dataPack.cols">
+                    {{row[$index]}}
+                </td>
+            </tr>
+        </table>
+        <pre ng-show="innerTabIndex === 1"
+             class="raw-data">{{dataPack.data}}
+        </pre>
     </div>
 
 </section>
