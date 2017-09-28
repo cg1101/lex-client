@@ -1,9 +1,9 @@
 var mod = angular.module('at.views.work', []);
 
-mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
+mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Linguist) {
 
     var validators = [],
-        validatorBySeqId = {},
+        validatorById = {},
         fullAlphabets = {};
 
     (function init(delay) {
@@ -67,46 +67,74 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
         return items;
     }
 
+    function escape(s) {
+        return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    }
+
     function prepareSequencePattern(s) {
         // search for CON/VWL/SYL ...
         return s;
     }
 
     function parseAlphabet(alphabet) {
+        var phones;
         $log.debug('loaded alphabet', alphabet);
         fullAlphabets[alphabet.alphabetId] = alphabet;
+
+        phones = {};
+        angular.forEach(alphabet.graphemes, function (gr) {
+            var symbol = Linguist.lookup(gr.appenKey);
+            // $log.debug(gr, '=>', symbol);
+            if (angular.isUndefined(phones[symbol.type])) {
+                phones[symbol.type] = [];
+            }
+            phones[symbol.type].push({grapheme: gr, symbol: symbol});
+        });
+        alphabet.phones = phones;
+
         alphabet.validators = [];
-        angular.forEach(alphabet.phonologyRules, function (rule) {
-            // $log.debug(rule);
-            angular.forEach(rule.sequences, function (seq) {
-                var seqId = rule.type + '_' + rule.ruleId + '_' + seq.sequenceId,
-                    pattern = prepareSequencePattern(seq.incorrect),
-                    regex = new RegExp(pattern),
-                    validator;
-                validator = function (s) {
-                    var matchObject = s.match(regex), rv = null;
-                    if (matchObject) {
-                        rv = {
-                            match: matchObject,
-                            replacement: s.replace(regex, seq.correct)
+        angular.forEach(['phonology', 'stress', 'syllabification', 'vowelisation'], function (type) {
+            var rules = alphabet[type + 'Rules'], count = 0;
+            angular.forEach(rules, function (rule) {
+                // $log.debug(rule);
+                angular.forEach(rule.sequences, function (seq) {
+                    var funcId = rule.type + '_' + rule.ruleId + '_' + seq.sequenceId,
+                        pattern, regex, validator;
+                    count++;
+                    if (type === 'phonology' || type === 'vowelisation') {
+                        pattern = prepareSequencePattern(seq.incorrect);
+                        regex = new RegExp(pattern);
+                        seq.regex = regex;
+                        validator = function (s) {
+                            var matchObject = s.match(regex), rv = null;
+                            if (matchObject) {
+                                rv = {
+                                    match: matchObject,
+                                    replacement: s.replace(regex, seq.correct)
+                                };
+                            }
+                            return rv;
                         };
+                    } else {
+                        pattern = prepareSequencePattern(seq.correct);
+                        regex = new RegExp(pattern);
+                        seq.regex = regex;
+                        validator = function (s) {
+                            var matchObject = s.match(regex), rv = null;
+                            if (matchObject) {
+                                rv = {
+                                    match: matchObject
+                                };
+                            }
+                            return rv;
+                        }
                     }
-                    return rv;
-                };
-                validatorBySeqId[seqId] = validator;
-                validators.push(validator);
+                    validatorById[funcId] = validator;
+                    alphabet.validators.push(validator);
+                });
             });
+            $log.debug('found', rules.length, type, 'rules,', count, 'sequences');
         });
-        angular.forEach(alphabet.stressRules, function (rule) {
-            $log.debug(rule);
-        });
-        angular.forEach(alphabet.syllabificationRules, function (rule) {
-            $log.debug(rule);
-        });
-        angular.forEach(alphabet.vowelisationRules, function (rule) {
-            $log.debug(rule);
-        });
-        $log.debug('validators', validators);
     }
 
     function saveCurrentThenGoTo(item) {
@@ -144,16 +172,15 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
         }
     });
     $scope.$watch('alphabetId', function (alphabetId) {
-        validators.length = 0;
         if (angular.isNumber(alphabetId)) {
             $log.debug('chosen alphabet', alphabetId);
             if (angular.isDefined(fullAlphabets[alphabetId])) {
-                validators.concat(fullAlphabets[alphabetId].validators)
+                validators = fullAlphabets[alphabetId].validators;
             } else {
                 Lex.getAlphabet(alphabetId).then(function (response) {
                     var alphabet = response.data.alphabet;
                     parseAlphabet(alphabet);
-                    validators.concat(alphabet.validators);
+                    validators = alphabet.validators;
                 });
             }
         }
@@ -200,6 +227,24 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
                 item = currentItem;
             }
             saveCurrentThenGoTo(item);
+        }
+    };
+    $scope.checkSampa = function (index) {
+        var formInput = $scope.formInput,
+            sampa = formInput.variants[index].sampa,
+            alphabet = fullAlphabets[$scope.alphabetId];
+        $log.debug('checking sampa', index, formInput.variants[index], sampa);
+        $log.debug('current alphabet', alphabet);
+        if (alphabet) {
+            angular.forEach(alphabet.phonologyRules, function (rule) {
+                angular.forEach(rule.sequences, function (seq) {
+                    var matchObject = sampa.match(seq.regex);
+                    if (matchObject) {
+                        var correction = sampa.replace(seq.regex, seq.correct);
+                        $log.debug(rule, seq, seq.regex, matchObject, correction);
+                    }
+                });
+            })
         }
     };
 });

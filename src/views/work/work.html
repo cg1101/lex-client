@@ -70,23 +70,16 @@
                         <div class="col-sm-3">
                             <label ng-show="$index===0">SAMPA variants</label>
                             <input class="form-control"
-                                   ng-model="formInput.variants[$index].sampa">
+                                   ng-model="formInput.variants[$index].sampa"
+                                   ng-change="checkSampa($index)">
                         </div>
                         <div class="col-sm-3">
                             <label ng-show="$index===0">Tag</label>
-                            <div class="tag-button">
-                                <button class="btn btn-default dropdown-toggle tag-button" data-toggle="dropdown">
-                                    {{i.tag}}
-                                    <div class="pull-right">
-                                        <span class="caret"></span>
-                                    </div>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li ng-repeat="t in tags">
-                                        <a ng-click="i.tag = t.name">{{t.name}}</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <select class="form-control"
+                                    ng-model="i.tag"
+                                    ng-options="t.name as t.name    for t in tags">
+                                <option value="">--</option>
+                            </select>
                             <span class="clearfix"></span>
                         </div>
                         <div class="col-sm-3">
