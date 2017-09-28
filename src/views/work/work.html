@@ -1,11 +1,17 @@
 <h1>Working on batch {{batchId}}</h1>
 
-<div class="row" ng-hide="true">
+<div class="row" ng-show="true">
     <div class="col-sm-4">
-        <input class="form-control">
+        <select class="form-control" ng-model="alphabetId"
+                ng-options="a.alphabetId as '' + a.alphabetId + ' ' + a.name for a in alphabets|orderBy:'alphabetId'">
+            <option value="">-- Choose an Alphabet --</option>
+        </select>
     </div>
+
+
 </div>
-<ul></ul>
+
+<hr>
 
 <table class="table table-hover">
     <tr>
@@ -13,72 +19,88 @@
         <th>Headword</th>
         <th>Spelling Correction</th>
         <th>SAMPA</th>
-        <th>RANK</th>
+        <th>TAG</th>
     </tr>
-    <tr ng-repeat="i in getItemsBehind()"
-        ng-click="setCurrentItem(i)">
-        <td>{{i.index+1}}</td>
-        <td>{{i.headword}}</td>
-        <td>{{i.headword}}</td>
-        <td>{{i.sampa}}</td>
-        <td>{{i.ranking}}</td>
+    <tbody ng-repeat="i in getItemsBehind()"
+           ng-click="setCurrentItem(i)"
+           ng-init="totalVariants = i.variants.length">
+    <tr ng-repeat="v in i.variants">
+        <td ng-if="$index==0" rowspan="{{totalVariants}}">
+            {{i.index+1}}
+        </td>
+        <td ng-="$index==0" rowspan="{{totalVariants}}">{{i.headword}}</td>
+        <td ng-if="$index==0" rowspan="{{totalVariants}}">
+            <span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span>
+        </td>
+        <td>{{i.variants[$index].sampa}}</td>
+        <td>{{i.variants[$index].tag}}</td>
     </tr>
+    </tbody>
     <tr>
-        <td colspan="5">
+        <td colspan="5" class="lex-work-pane-container">
             <div class="lex-work-pane" ng-form="form">
-                <div>
-                    <h1>{{currentItem.index+1}}</h1>
-                    <span class="headword">{{currentItem.headword}}</span>
-                </div>
                 <div class="row">
-                    <div class="correction">
-                        <div class="col-sm-3">
-                            <label class="correction">Spelling Correction</label>
-                            <input class="form-control"
-                                   ng-model="formInput.spellingCorrection">
-                        </div>
+
+                    <div class="col-sm-6">
+                        <h1>{{currentItem.index+1}}</h1>
+                        <span class="headword">{{currentItem.headword}}</span>
+                        <span class="clearfix"></span>
                     </div>
-                    <div>
-                        <div class="col-sm-3">
-                            <label>SAMPA</label>
-                            <input class="form-control"
-                                   ng-model="formInput.sampa">
-                        </div>
+                    <div class="col-sm-6 correction">
+                        <i class="fa fa-pencil"></i>
+                        <input class="spelling-correction"
+                               ng-model="formInput.spellingCorrection">
+                        <span class="clearfix"></span>
+                    </div>
+                    <div class="col-sm-12">
+                        <label>SAMPA variants</label>
+                    </div>
+                    <div class="sampa-variant"
+                         ng-repeat="i in formInput.variants"
+                         ng-init="v = formInput.variants[$index]">
                         <div class="col-sm-4">
-                            <label>Tags</label>
-                            <div>
-                                <div class="btn-toolbar">
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-default" ng-repeat="i in ['tag1', 'tag2', 'tag3']">
-                                            {{i}}
-                                        </button>
-                                    </div>
-                                    <button class="btn btn-success btn-sm">Add Variant</button>
+                            <input class="form-control"
+                                   ng-model="formInput.variants[$index].sampa">
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="btn-toolbar">
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-default" ng-repeat="i in ['tag1', 'tag2', 'tag3']">
+                                        {{i}}
+                                    </button>
                                 </div>
+                                <button class="btn btn-success btn-sm"
+                                        ng-show="$last">
+
+                                    Add Variant
+                                </button>
                             </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label>&nbsp;</label>
-                            <button class="btn btn-primary btn-sm"
-                                    ng-disabled="false"
-                                    ng-click="save()">Save
-                            </button>
-                        </div>
+                        <span class="clearfix"></span>
                     </div>
-
-                    <ul></ul>
-                    <div>
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary btn-sm"
+                                ng-disabled="false"
+                                ng-click="save()">Save
+                        </button>
                     </div>
                 </div>
             </div>
         </td>
     </tr>
-    <tr ng-repeat="i in getItemsAhead()"
-        ng-click="setCurrentItem(i)">
-        <td>{{i.index+1}}</td>
-        <td>{{i.headword}}</td>
-        <td>{{i.headword}}</td>
-        <td>{{i.sampa}}</td>
-        <td>{{i.ranking}}</td>
+    <tbody ng-repeat="i in getItemsAhead()"
+           ng-click="setCurrentItem(i)"
+           ng-init="totalVariants = i.variants.length">
+    <tr ng-repeat="v in i.variants">
+        <td ng-if="$index==0" rowspan="{{totalVariants}}">
+            {{i.index+1}}
+        </td>
+        <td ng-if="$index==0" rowspan="{{totalVariants}}">{{i.headword}}</td>
+        <td ng-if="$index==0" rowspan="{{totalVariants}}">
+            <span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span>
+        </td>
+        <td>{{i.variants[$index].sampa}}</td>
+        <td>{{i.variants[$index].tag}}</td>
     </tr>
+    </tbody>
 </table>

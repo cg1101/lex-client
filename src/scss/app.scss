@@ -330,11 +330,13 @@ div.data-preview-body {
   }
 }
 
-td[colspan="5"] {
-  background-color: rgb(245, 245, 245);
+td[colspan="5"].lex-work-pane-container {
+  padding: 0;
 }
 
 div.lex-work-pane {
+  background-color: rgb(245, 245, 245);
+  padding: 10px;
   & h1 {
     display: block;
     width: 1.5em;
@@ -344,15 +346,35 @@ div.lex-work-pane {
     margin: 0 10px 10px 0;
     border: solid lightgray thin;
     text-align: center;
-    font-size: 36pt;
-    padding-top: 10px;
+    font-size: 50px;
+    padding-top: 8px;
   }
   & span.headword {
+    float: left;
     font-size: 50px;
+    padding-top: 0;
   }
 
   & div.correction {
-    clear: both;
+    & > i.fa {
+      margin-top: 24px;
+      font-size: 24px;
+    }
+    & > input {
+      font-size: 50px;
+      padding-top: 0;
+      background-color: transparent;
+      border: solid 0 transparent;
+      width: 90%;
+      border-bottom-color: lightgray;
+      border-bottom-width: 1px;
+      &:focus {
+        border: solid 0 transparent;
+      }
+    }
+  }
+  & div.sampa-variant {
+    margin-bottom: 10px;
   }
 }
 
