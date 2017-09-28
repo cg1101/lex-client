@@ -2,12 +2,20 @@
 
 <div class="row" ng-show="true">
     <div class="col-sm-4">
+        <label>Alphabet</label>
         <select class="form-control" ng-model="alphabetId"
                 ng-options="a.alphabetId as '' + a.alphabetId + ' ' + a.name for a in alphabets|orderBy:'alphabetId'">
             <option value="">-- Choose an Alphabet --</option>
         </select>
     </div>
 
+    <div class="col-sm-4">
+        <label>Task Type</label>
+        <select class="form-control" ng-model="taskType"
+                ng-options="t as t.name for t in taskTypes">
+            <option value="">-- Choose a taskType --</option>
+        </select>
+    </div>
 
 </div>
 
@@ -55,7 +63,7 @@
                         <span class="clearfix"></span>
                     </div>
                 </div>
-                <div class="row" ng-show="true">
+                <div class="row" ng-show="taskType.name !== 'Spelling'">
                     <!--<span class="clearfix"></span>-->
                     <div class="sampa-variant"
                          ng-repeat="i in formInput.variants">

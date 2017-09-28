@@ -12,6 +12,12 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
         $scope.currentItem = null;
         $scope.alphabets = [];
         $scope.tags = [];
+        $scope.taskTypes = [
+            {taskTypeId: 1, name: 'Lexicon'},
+            {taskTypeId: 2, name: 'Spelling'},
+            {taskTypeId: 3, name: 'Markup'}
+        ];
+        $scope.taskType = $scope.taskTypes[0];
 
         var taskId = 30034500;
 
