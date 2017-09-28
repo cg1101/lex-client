@@ -3,6 +3,7 @@ var mod = angular.module('at.views.work', []);
 mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
 
     var validators = [],
+        validatorBySeqId = {},
         fullAlphabets = {};
 
     (function init(delay) {
@@ -27,36 +28,13 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
             alphabets: Lex.getAlphabets()
         }).then(function (result) {
             var batch = result.batch.data.batch,
-                items = $filter('orderBy')(batch.data, ['headword', 'ranking']),
-                itemByHeadword = {};
+                items = $filter('orderBy')(batch.data, ['headword', 'ranking']);
 
             $scope.alphabets = result.alphabets.data.alphabets;
             $scope.tags = result.tags.data.tags;
-            // $log.debug('loaded tags', result.tags.data.tags);
 
-            angular.forEach(items, function (item) {
-                var hw = item.headword, newItem;
-                if (!angular.isDefined(itemByHeadword[hw])) {
-                    newItem = {
-                        index: $scope.items.length,
-                        headword: hw,
-                        spellingCorrection: hw,
-                        variants: [
-                            {
-                                sampa: item.sampa,
-                                tag: item.tag
-                            }
-                        ]
-                    };
-                    itemByHeadword[hw] = newItem;
-                    $scope.items.push(newItem);
-                } else {
-                    itemByHeadword[hw].variants.push({
-                        sampa: item.sampa,
-                        tag: item.tag
-                    });
-                }
-            });
+            items = loadRawItems(items);
+            $scope.items = items;
             if (items.length) {
                 $scope.currentItem = $scope.items[0];
             }
@@ -65,12 +43,59 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
         });
     })(0);
 
+    function loadRawItems(rawItems) {
+        var itemByHeadword = {}, items = [];
+        angular.forEach(rawItems, function (rawItem) {
+            var hw = rawItem.headword, newItem;
+            if (!angular.isDefined(itemByHeadword[hw])) {
+                newItem = {
+                    index: items.length,
+                    headword: hw,
+                    spellingCorrection: hw,
+                    variants: [{sampa: rawItem.sampa, tag: rawItem.tag, comment: null}]
+                };
+                itemByHeadword[hw] = newItem;
+                items.push(newItem);
+            } else {
+                itemByHeadword[hw].variants.push({
+                    sampa: rawItem.sampa,
+                    tag: rawItem.tag,
+                    comment: null
+                });
+            }
+        });
+        return items;
+    }
+
+    function prepareSequencePattern(s) {
+        // search for CON/VWL/SYL ...
+        return s;
+    }
+
     function parseAlphabet(alphabet) {
         $log.debug('loaded alphabet', alphabet);
         fullAlphabets[alphabet.alphabetId] = alphabet;
         alphabet.validators = [];
         angular.forEach(alphabet.phonologyRules, function (rule) {
-            $log.debug(rule);
+            // $log.debug(rule);
+            angular.forEach(rule.sequences, function (seq) {
+                var seqId = rule.type + '_' + rule.ruleId + '_' + seq.sequenceId,
+                    pattern = prepareSequencePattern(seq.incorrect),
+                    regex = new RegExp(pattern),
+                    validator;
+                validator = function (s) {
+                    var matchObject = s.match(regex), rv = null;
+                    if (matchObject) {
+                        rv = {
+                            match: matchObject,
+                            replacement: s.replace(regex, seq.correct)
+                        };
+                    }
+                    return rv;
+                };
+                validatorBySeqId[seqId] = validator;
+                validators.push(validator);
+            });
         });
         angular.forEach(alphabet.stressRules, function (rule) {
             $log.debug(rule);
@@ -81,18 +106,17 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
         angular.forEach(alphabet.vowelisationRules, function (rule) {
             $log.debug(rule);
         });
+        $log.debug('validators', validators);
     }
 
     function saveCurrentThenGoTo(item) {
         var currentItem = $scope.currentItem,
             formInput = $scope.formInput,
             nextItem, variant;
-
-        $log.debug('save current edited item, spellingCorrection, sampa, tag, etc.');
-
+        // $log.debug('save current edited item, spellingCorrection, sampa, tag, etc.');
         $q.resolve(true).then(function () {
             if (currentItem) {
-                $log.debug('save formInput', formInput, 'into current item', currentItem);
+                // $log.debug('save formInput', formInput, 'into current item', currentItem);
                 currentItem.spellingCorrection = formInput.spellingCorrection;
                 currentItem.variants.length = 0;
                 angular.forEach(formInput.variants, function (v) {
@@ -101,8 +125,7 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log) {
                         currentItem.variants.push(variant);
                     }
                 });
-                $log.debug('after saving', currentItem);
-
+                // $log.debug('after saving', currentItem);
                 if (currentItem != item) {
                     $scope.currentItem = item;
                 }
