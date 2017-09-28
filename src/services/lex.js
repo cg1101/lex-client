@@ -39,6 +39,9 @@ mod.factory('Lex', function ($http, $q, $filter, api, $timeout) {
         getTaskSubTasks: function (taskId) {
             return $http.get(api('/tasks/' + taskId + '/subtasks/'));
         },
+        getTaskTags: function (taskId) {
+            return $http.get(api('/tasks/' + taskId + '/tags/'));
+        },
         getBatch: function (batchId) {
             return {
                 data: {

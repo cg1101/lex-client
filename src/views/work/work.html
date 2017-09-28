@@ -19,16 +19,18 @@
         <th>Headword</th>
         <th>Spelling Correction</th>
         <th>SAMPA</th>
-        <th>TAG</th>
+        <th>Tag</th>
     </tr>
     <tbody ng-repeat="i in getItemsBehind()"
-           ng-click="setCurrentItem(i)"
+           ng-click="jumpTo(i)"
            ng-init="totalVariants = i.variants.length">
     <tr ng-repeat="v in i.variants">
         <td ng-if="$index==0" rowspan="{{totalVariants}}">
             {{i.index+1}}
         </td>
-        <td ng-="$index==0" rowspan="{{totalVariants}}">{{i.headword}}</td>
+        <td ng-if="$index==0" rowspan="{{totalVariants}}">
+            <span ng-class="{changed: i.headword != i.spellingCorrection}">{{i.headword}}</span>
+        </td>
         <td ng-if="$index==0" rowspan="{{totalVariants}}">
             <span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span>
         </td>
@@ -40,7 +42,6 @@
         <td colspan="5" class="lex-work-pane-container">
             <div class="lex-work-pane" ng-form="form">
                 <div class="row">
-
                     <div class="col-sm-6">
                         <h1>{{currentItem.index+1}}</h1>
                         <span class="headword">{{currentItem.headword}}</span>
@@ -49,47 +50,65 @@
                     <div class="col-sm-6 correction">
                         <i class="fa fa-pencil"></i>
                         <input class="spelling-correction"
+                               ng-class="formInput.spellingCorrection == formInput.headword ? 'no-change' : 'changed'"
                                ng-model="formInput.spellingCorrection">
                         <span class="clearfix"></span>
                     </div>
-                    <div class="col-sm-12">
-                        <label>SAMPA variants</label>
-                    </div>
+                </div>
+                <div class="row" ng-show="true">
+                    <!--<span class="clearfix"></span>-->
                     <div class="sampa-variant"
-                         ng-repeat="i in formInput.variants"
-                         ng-init="v = formInput.variants[$index]">
-                        <div class="col-sm-4">
+                         ng-repeat="i in formInput.variants">
+                        <div class="col-sm-3">
+                            <label ng-show="$index===0">SAMPA variants</label>
                             <input class="form-control"
                                    ng-model="formInput.variants[$index].sampa">
                         </div>
-                        <div class="col-sm-8">
-                            <div class="btn-toolbar">
-                                <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-default" ng-repeat="i in ['tag1', 'tag2', 'tag3']">
-                                        {{i}}
-                                    </button>
-                                </div>
+                        <div class="col-sm-3">
+                            <label ng-show="$index===0">Tag</label>
+                            <div class="tag-button">
+                                <button class="btn btn-default dropdown-toggle tag-button" data-toggle="dropdown">
+                                    {{i.tag}}
+                                    <div class="pull-right">
+                                        <span class="caret"></span>
+                                    </div>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="t in tags">
+                                        <a ng-click="i.tag = t.name">{{t.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <span class="clearfix"></span>
+                        </div>
+                        <div class="col-sm-3">
+                            <label ng-show="$index===0">Comment</label>
+                            <input class="form-control" ng-model="i.comment">
+                        </div>
+                        <div class="col-sm-3">
+                            <label ng-show="$index===0">&nbsp;</label>
+                            <div>
                                 <button class="btn btn-success btn-sm"
-                                        ng-show="$last">
-
+                                        ng-show="$last"
+                                        ng-disabled="!isSampaOkay(i.sampa)"
+                                        ng-click="addVariant()">
                                     Add Variant
                                 </button>
                             </div>
                         </div>
                         <span class="clearfix"></span>
                     </div>
-                    <div class="col-sm-12">
-                        <button class="btn btn-primary btn-sm"
-                                ng-disabled="false"
-                                ng-click="save()">Save
-                        </button>
-                    </div>
                 </div>
+                <button class="btn btn-primary btn-sm"
+                        ng-disabled="false"
+                        ng-click="save()">Save
+                </button>
+            </div>
             </div>
         </td>
     </tr>
     <tbody ng-repeat="i in getItemsAhead()"
-           ng-click="setCurrentItem(i)"
+           ng-click="jumpTo(i)"
            ng-init="totalVariants = i.variants.length">
     <tr ng-repeat="v in i.variants">
         <td ng-if="$index==0" rowspan="{{totalVariants}}">

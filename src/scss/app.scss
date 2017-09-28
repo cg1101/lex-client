@@ -334,6 +334,11 @@ td[colspan="5"].lex-work-pane-container {
   padding: 0;
 }
 
+span.changed {
+  text-decoration: line-through;
+  color: red;
+}
+
 div.lex-work-pane {
   background-color: rgb(245, 245, 245);
   padding: 10px;
@@ -363,18 +368,29 @@ div.lex-work-pane {
     & > input {
       font-size: 50px;
       padding-top: 0;
+      padding-left: 10px;
       background-color: transparent;
       border: solid 0 transparent;
       width: 90%;
       border-bottom-color: lightgray;
       border-bottom-width: 1px;
+      color: lightgray;
       &:focus {
         border: solid 0 transparent;
+        color: inherit;
+      }
+      &.changed {
+        color: blue;
       }
     }
   }
   & div.sampa-variant {
     margin-bottom: 10px;
+    div.tag-button {
+      & > button {
+        width: 100%;
+      }
+    }
   }
 }
 
