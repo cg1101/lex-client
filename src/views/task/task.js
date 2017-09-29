@@ -4,20 +4,29 @@ mod.controller('TaskCtrl', function ($scope, Lex, $q, taskId, $log, $timeout, $f
 
     (function init(delay) {
         $scope.context = {isLoading: true};
+        $scope.task = null;
+        $scope.subTasks = [];
         $scope.dataBuffer = [];
-        $scope.dataPack;
+        $scope.dataPack = null;
 
         $q.all({
-            task: Lex.getTask(taskId)
+            task: Lex.getTask(taskId),
+            subTasks: Lex.getTaskSubTasks(taskId)
         }).then(function (result) {
-            $scope.task = result.task.data.task;
+            var task = result.task.data.task,
+                subTasks = result.subTasks.data.subTasks;
+            $scope.task = task;
+            $scope.subTasks = subTasks;
+
+            Lex.getAlphabet(task.alphabetId).then(function (response) {
+                $scope.alphabet = response.data.alphabet;
+            });
+            Lex.getProject(task.projectId).then(function (response) {
+                $scope.project = response.data.project;
+            });
         }).finally(function () {
             delete $scope.context.isLoading;
         });
-
-        Lex.getTaskSubTasks(taskId).then(function (response) {
-            $scope.subTasks = response.data.subTasks;
-        })
     })(0);
 
     this.dataLoaded = function (filename, type, size, data) {

@@ -6,6 +6,48 @@
 
     <h1>Task: {{task.taskId}} - {{task.name}}</h1>
 
+    <div class="row">
+        <h2>Details</h2>
+        <div class="col-sm-4">
+            <div class="list-group">
+                <div class="list-group-item">
+                    Project:
+                    <span class="pull-right">
+                        {{'' + project.projectId + ' - ' + project.name}}
+                    </span>
+                </div>
+                <div class="list-group-item">
+                    Alphabet:
+                    <span class="pull-right">
+                        {{alphabet.name}}
+                    </span>
+                </div>
+                <div class="list-group-item">
+                    Task Type:
+                    <span class="pull-right">
+                    <span class="label label-primary">{{task.taskType}}</span>
+                </span>
+                </div>
+                <div class="list-group-item">
+                    Guideline:
+                    <span class="pull-right">
+                        <a ng-if="task.conventionsUrl" ng-href="{{task.conventionsUrl}}"
+                           target="_blank"><i class="fa fa-external-link"></i>
+                        </a>
+                        <span ng-if="!task.conventionsUrl">n/a</span>
+                    </span>
+                </div>
+                <div class="list-group-item">
+                    Has 2nd headword:
+                    <span class="pull-right">
+                        <input type="checkbox" ng-model="task.hasSecondHeadword">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <span class="clearfix"></span>
+    </div>
+
     <h2>Sub Tasks</h2>
     <table class="table table-hover">
         <tr>
