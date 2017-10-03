@@ -2,11 +2,12 @@ var mod = angular.module('at.views.tasks', []);
 
 mod.controller('TasksCtrl', function ($scope, Lex, $filter, $q) {
 
-    $scope.title = 'Tasks';
-    $scope.tasks = [];
-    $scope.projects = [];
-
     (function (delay) {
+        $scope.title = 'Tasks';
+        $scope.tasks = [];
+        $scope.projects = [];
+        $scope.sortBy = 'taskId';
+
         $scope.context = {isLoading: true};
         $q.all({
             tasks: Lex.getTasks(),
@@ -34,6 +35,17 @@ mod.controller('TasksCtrl', function ($scope, Lex, $filter, $q) {
             return $filter('filter')($scope.tasks, function (task) {
                 return task.current === isActive;
             }, true);
+        }
+    };
+    this.toggleSortBy = function (_sortBy) {
+        if ($scope.sortBy === _sortBy) {
+            if ($scope.sortBy.charAt(0) === '-') {
+                $scope.sortBy = _sortBy.substr(1);
+            } else {
+                $scope.sortBy = '-' + _sortBy;
+            }
+        } else {
+            $scope.sortBy = _sortBy;
         }
     };
 });

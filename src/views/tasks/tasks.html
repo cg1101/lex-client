@@ -6,25 +6,34 @@
 <section ng-hide="context.isLoading">
     <h1>{{title}}</h1>
 
-    <uib-tabset>
-        <uib-tab heading="Current Tasks">
-            <h2>Current Tasks</h2>
-            <table class="table table-hover">
-                <tr ng-repeat="t in ctrl.getTasks(true)">
-                    <td><a ng-href="{{$state.href('task', {taskId: t.taskId})}}">{{t.taskId}}</a></td>
-                    <td>{{t.name}}</td>
-                </tr>
-            </table>
-        </uib-tab>
-        <uib-tab heading="Archived Tasks">
-            <h2>Archived Tasks</h2>
-            <table class="table table-hover">
-                <tr ng-repeat="t in ctrl.getTasks(false)">
-                    <td>{{t.taskId}}</td>
-                    <td>{{t.name}}</td>
-                </tr>
-            </table>
-
-        </uib-tab>
+    <uib-tabset active="tabIndex">
+        <uib-tab heading="Current Tasks"></uib-tab>
+        <uib-tab heading="Archived Tasks"></uib-tab>
     </uib-tabset>
+
+    <h2><span ng-bind="tabIndex === 0 ? 'Current' : 'Archived'"></span> Tasks</h2>
+    <table class="table table-hover">
+        <tr>
+            <th ng-click="ctrl.toggleSortBy('taskId')">
+                Task ID
+                <i class="fa"
+                   ng-class="{'fa-sort-up': sortBy==='taskId', 'fa-sort-down': sortBy==='-taskId'}"></i></th>
+            <th ng-click="ctrl.toggleSortBy('name')">
+                Task Name
+                <i class="fa"
+                   ng-class="{'fa-sort-up': sortBy==='name', 'fa-sort-down': sortBy==='-name'}"></i></th>
+            <th ng-click="ctrl.toggleSortBy('taskTypeId')">
+                Task Type
+                <i class="fa"
+                   ng-class="{'fa-sort-up': sortBy==='taskTypeId', 'fa-sort-down': sortBy==='-taskTypeId'}"></i></th>
+        </tr>
+        <tr ng-repeat="t in ctrl.getTasks(tabIndex === 0)|orderBy:sortBy">
+            <td><a ng-href="{{$state.href('task', {taskId: t.taskId})}}">{{t.taskId}}</a></td>
+            <td>{{t.name}}</td>
+            <td><span class="label label-"
+                      ng-class="{'label-primary': t.taskType==='Lexicon',
+                        'label-success': t.taskType==='Spelling',
+                        'label-info': t.taskType==='Markup'}">{{t.taskType}}</span></td>
+        </tr>
+    </table>
 </section>
