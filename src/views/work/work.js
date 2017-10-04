@@ -1,12 +1,14 @@
 var mod = angular.module('at.views.work', []);
 
-mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Linguist) {
+mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Linguist, $timeout) {
 
     var validators = [],
         validatorById = {},
         fullAlphabets = {};
 
     (function init(delay) {
+        var t0 = new Date();
+
         $scope.context = {isLoading: true};
         $scope.batchId = batchId;
         $scope.items = [];
@@ -38,6 +40,8 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Li
             if (items.length) {
                 $scope.currentItem = $scope.items[0];
             }
+
+            $log.debug('page loading time', (new Date() - t0) / 1000);
         }).finally(function () {
             delete $scope.context.isLoading;
         });
@@ -46,20 +50,25 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Li
     function loadRawItems(rawItems) {
         var itemByHeadword = {}, items = [];
         angular.forEach(rawItems, function (rawItem) {
-            var hw = rawItem.headword, newItem;
+            var hw = rawItem.headword, newItem, tags = [];
+            angular.forEach((rawItems.tag || '').split(/\t/), function (t) {
+                if (/\S/.test(t)) {
+                    tags.push(t);
+                }
+            });
             if (!angular.isDefined(itemByHeadword[hw])) {
                 newItem = {
                     index: items.length,
                     headword: hw,
                     spellingCorrection: hw,
-                    variants: [{sampa: rawItem.sampa, tag: rawItem.tag, comment: null}]
+                    variants: [{sampa: rawItem.sampa, tags: tags, comment: null}]
                 };
                 itemByHeadword[hw] = newItem;
                 items.push(newItem);
             } else {
                 itemByHeadword[hw].variants.push({
                     sampa: rawItem.sampa,
-                    tag: rawItem.tag,
+                    tags: tags,
                     comment: null
                 });
             }
@@ -141,10 +150,10 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Li
         var currentItem = $scope.currentItem,
             formInput = $scope.formInput,
             nextItem, variant;
-        // $log.debug('save current edited item, spellingCorrection, sampa, tag, etc.');
+        $log.debug('save current edited item, spellingCorrection, sampa, tags, etc.');
         $q.resolve(true).then(function () {
             if (currentItem) {
-                // $log.debug('save formInput', formInput, 'into current item', currentItem);
+                $log.debug('save formInput', formInput, 'into current item', currentItem);
                 currentItem.spellingCorrection = formInput.spellingCorrection;
                 currentItem.variants.length = 0;
                 angular.forEach(formInput.variants, function (v) {
@@ -161,14 +170,37 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Li
         });
     }
 
+    this.columnRemoved = function ($item, $model) {
+        //$log.debug('data column was removed', $item, $model);
+    };
+
+    this.onKeyPress = function ($event, key) {
+        var code = $event.keyCode;
+        var currentItem = $scope.currentItem, item;
+        if (currentItem) {
+            item = $scope.items[currentItem.index + 1];
+            if (!item) {
+                item = currentItem;
+            }
+        }
+
+        $log.debug('keypress event', $event, code);
+        if (key === 'spellingCorrection' && code === 13) {
+            $log.debug('save current and jump to next row');
+            saveCurrentThenGoTo(item);
+        }
+    };
+
     $scope.$watch('currentItem', function (item) {
         var formInput = $scope.formInput = {};
         if (item) {
             formInput.headword = item.headword;
             formInput.spellingCorrection = item.spellingCorrection;
-            formInput.sampa = item.sampa;
-            formInput.tag = item.tag;
-            formInput.variants = item.variants.slice()
+            formInput.variants = item.variants.slice();
+            // $log.debug('set focus to spellingCorrection');
+            $timeout(function () {
+                $('#spellingCorrection').focus();
+            }, 200);
         }
     });
     $scope.$watch('alphabetId', function (alphabetId) {

@@ -1,6 +1,7 @@
 var app = angular.module('lexApp', [
     'ui.router',
     'ui.bootstrap',
+    'ui.select',
     'at.components',
     'at.dialogs',
     'lex.services',

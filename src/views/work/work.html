@@ -21,106 +21,236 @@
 
 <hr>
 
-<table class="table table-hover">
-    <tr>
-        <th>No.</th>
-        <th>Headword</th>
-        <th>Spelling Correction</th>
-        <th>SAMPA</th>
-        <th>Tag</th>
-    </tr>
-    <tbody ng-repeat="i in getItemsBehind()"
-           ng-click="jumpTo(i)"
-           ng-init="totalVariants = i.variants.length">
-    <tr ng-repeat="v in i.variants">
-        <td ng-if="$index==0" rowspan="{{totalVariants}}">
-            {{i.index+1}}
-        </td>
-        <td ng-if="$index==0" rowspan="{{totalVariants}}">
-            <span ng-class="{changed: i.headword != i.spellingCorrection}">{{i.headword}}</span>
-        </td>
-        <td ng-if="$index==0" rowspan="{{totalVariants}}">
-            <span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span>
-        </td>
-        <td>{{i.variants[$index].sampa}}</td>
-        <td>{{i.variants[$index].tag}}</td>
-    </tr>
-    </tbody>
-    <tr>
-        <td colspan="5" class="lex-work-pane-container">
-            <div class="lex-work-pane" ng-form="form">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h1>{{currentItem.index+1}}</h1>
-                        <span class="headword">{{currentItem.headword}}</span>
-                        <span class="clearfix"></span>
-                    </div>
-                    <div class="col-sm-6 correction">
-                        <i class="fa fa-pencil"></i>
-                        <input class="spelling-correction"
-                               ng-class="formInput.spellingCorrection == formInput.headword ? 'no-change' : 'changed'"
-                               ng-model="formInput.spellingCorrection">
-                        <span class="clearfix"></span>
-                    </div>
-                </div>
-                <div class="row" ng-show="taskType.name !== 'Spelling'">
-                    <!--<span class="clearfix"></span>-->
-                    <div class="sampa-variant"
-                         ng-repeat="i in formInput.variants">
-                        <div class="col-sm-3">
-                            <label ng-show="$index===0">SAMPA variants</label>
-                            <input class="form-control"
-                                   ng-model="formInput.variants[$index].sampa"
-                                   ng-change="checkSampa($index)">
+<div ng-switch="taskType.name">
+    <table class="table table-bordered"
+           ng-switch-when="Lexicon|Markup"
+           ng-switch-when-separator="|">
+        <tr>
+            <th>No.</th>
+            <th>Headword</th>
+            <th>Spelling Correction</th>
+            <th ng-show="taskType.name === 'Lexicon'">SAMPA</th>
+            <th>Tag</th>
+            <th>Comment</th>
+        </tr>
+        <tbody ng-repeat="i in getItemsBehind()"
+               ng-click="jumpTo(i)"
+               ng-init="nrows = i.variants.length">
+        <tr ng-repeat="v in i.variants">
+            <td ng-if="$index==0" rowspan="{{nrows}}">
+                {{i.index+1}}
+            </td>
+            <td ng-if="$index==0" rowspan="{{nrows}}">
+                <span ng-class="{changed: i.headword != i.spellingCorrection}">{{i.headword}}</span>
+            </td>
+            <td ng-if="$index==0" rowspan="{{nrows}}">
+                <span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span>
+            </td>
+            <td ng-show="taskType.name === 'Lexicon'">{{i.variants[$index].sampa}}</td>
+            <td>
+            <span class="label label-success"
+                  ng-repeat="t in i.variants[$index].tags">{{t.name}}</span>
+            </td>
+            <td>{{i.variants[$index].comment}}</td>
+        </tr>
+        </tbody>
+        <tr ng-show="false">
+            <td colspan="5" class="lex-work-pane-container">
+                <div class="lex-work-pane" ng-form="form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h1>{{currentItem.index+1}}</h1>
+                            <span class="headword">{{currentItem.headword}}</span>
+                            <span class="clearfix"></span>
                         </div>
-                        <div class="col-sm-3">
-                            <label ng-show="$index===0">Tag</label>
+                        <div class="col-sm-6 correction">
+                            <i class="fa fa-pencil"></i>
+                            <input class="spelling-correction"
+                                   ng-class="formInput.spellingCorrection == formInput.headword ? 'no-change' : 'changed'"
+                                   ng-model="formInput.spellingCorrection">
+                            <span class="clearfix"></span>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="taskType.name !== 'Spelling'">
+                        <!--<span class="clearfix"></span>-->
+                        <div class="sampa-variant"
+                             ng-repeat="i in formInput.variants">
+                            <div class="col-sm-3">
+                                <label ng-show="$index===0">SAMPA variants</label>
+                                <input class="form-control"
+                                       ng-model="formInput.variants[$index].sampa"
+                                       ng-change="checkSampa($index)">
+                            </div>
+                            <div class="col-sm-3">
+                                <label ng-show="$index===0">Tag</label>
+                                <select class="form-control"
+                                        ng-model="i.tag"
+                                        ng-options="t.name as t.name for t in tags">
+                                    <option value=""></option>
+                                </select>
+                                <span class="clearfix"></span>
+                            </div>
+                            <div class="col-sm-3">
+                                <label ng-show="$index===0">Comment</label>
+                                <input class="form-control" ng-model="i.comment">
+                            </div>
+                            <div class="col-sm-3">
+                                <label ng-show="$index===0">&nbsp;</label>
+                                <div>
+                                    <button class="btn btn-success btn-sm"
+                                            ng-show="$last"
+                                            ng-disabled="!isSampaOkay(i.sampa)"
+                                            ng-click="addVariant()">
+                                        Add Variant
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="clearfix"></span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-sm"
+                            ng-disabled="false"
+                            ng-click="save()">Save
+                    </button>
+                </div>
+
+            </td>
+        </tr>
+        <tbody ng-show="true">
+        <tr ng-repeat="v in currentItem.variants"
+            ng-init="nrows = formInput.variants.length">
+            <td ng-if="$index===0" rowspan="{{nrows}}">
+                {{currentItem.index+1}}
+            </td>
+            <td ng-if="$index===0" rowspan="{{nrows}}">
+                {{currentItem.headword}}
+            </td>
+            <td ng-if="$index===0" rowspan="{{nrows}}">
+                <input id="spellingCorrection"
+                       class="form-control"
+                       ng-model="formInput.spellingCorrection"
+                       ng-keypress="ctrl.onKeyPress($event, 'spellingCorrection')">
+            </td>
+            <td ng-show="taskType.name === 'Lexicon'">
+                <input class="form-control" ng-model="v.sampa">
+            </td>
+            <td>
+                <ui-select multiple
+                           ng-model="v.tags"
+                           on-remove="ctrl.columnRemoved($item, $model)"
+                           theme="bootstrap"
+                           close-on-select="true"
+                           style="width: 100%;"
+                           title="Select applicable tags">
+                    <ui-select-match placeholder="Select a tag ...">
+                        {{$item.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="t as t in tags">
+                        <span ng-bind="t.name"></span>
+                    </ui-select-choices>
+                </ui-select>
+                <!--
                             <select class="form-control"
                                     ng-model="i.tag"
                                     ng-options="t.name as t.name for t in tags">
                                 <option value=""></option>
                             </select>
-                            <span class="clearfix"></span>
-                        </div>
-                        <div class="col-sm-3">
-                            <label ng-show="$index===0">Comment</label>
-                            <input class="form-control" ng-model="i.comment">
-                        </div>
-                        <div class="col-sm-3">
-                            <label ng-show="$index===0">&nbsp;</label>
-                            <div>
-                                <button class="btn btn-success btn-sm"
-                                        ng-show="$last"
-                                        ng-disabled="!isSampaOkay(i.sampa)"
-                                        ng-click="addVariant()">
-                                    Add Variant
-                                </button>
-                            </div>
-                        </div>
-                        <span class="clearfix"></span>
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-sm"
-                        ng-disabled="false"
-                        ng-click="save()">Save
-                </button>
-            </div>
-            </div>
-        </td>
-    </tr>
-    <tbody ng-repeat="i in getItemsAhead()"
-           ng-click="jumpTo(i)"
-           ng-init="totalVariants = i.variants.length">
-    <tr ng-repeat="v in i.variants">
-        <td ng-if="$index==0" rowspan="{{totalVariants}}">
-            {{i.index+1}}
-        </td>
-        <td ng-if="$index==0" rowspan="{{totalVariants}}">{{i.headword}}</td>
-        <td ng-if="$index==0" rowspan="{{totalVariants}}">
-            <span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span>
-        </td>
-        <td>{{i.variants[$index].sampa}}</td>
-        <td>{{i.variants[$index].tag}}</td>
-    </tr>
-    </tbody>
-</table>
+                -->
+            </td>
+            <td>
+                <input class="form-control"
+                       ng-model="v.comment"
+                       ng-keypress="ctrl.onKeyPress($event, 'comment')">
+            </td>
+        </tr>
+        </tbody>
+        <tbody ng-repeat="i in getItemsAhead()"
+               ng-click="jumpTo(i)"
+               ng-init="nrows = i.variants.length">
+        <tr ng-repeat="v in i.variants">
+            <td ng-if="$index==0" rowspan="{{nrows}}">
+                {{i.index+1}}
+            </td>
+            <td ng-if="$index==0" rowspan="{{nrows}}">{{i.headword}}</td>
+            <td ng-if="$index==0" rowspan="{{nrows}}">
+                <span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span>
+            </td>
+            <td ng-show="taskType.name === 'Lexicon'">{{i.variants[$index].sampa}}</td>
+            <td>
+            <span class="label label-success"
+                  ng-repeat="t in i.variants[$index].tags">{{t.name}}</span>
+            </td>
+            <td>{{i.variants[$index].comment}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered"
+           ng-switch-when="Spelling">
+        <tr>
+            <th>No.</th>
+            <th>Headword</th>
+            <th>Spelling Correction</th>
+            <th>Tag</th>
+            <th>Comment</th>
+        </tr>
+        <tbody ng-repeat="i in getItemsBehind()"
+               ng-click="jumpTo(i)">
+        <tr ng-repeat="v in i.variants.slice(0, 1)">
+            <td>{{i.index+1}}</td>
+            <td><span ng-class="{changed: i.headword != i.spellingCorrection}">{{i.headword}}</span></td>
+            <td><span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span></td>
+            <td>
+                <span class="label label-success"
+                      ng-repeat="t in v.tags">{{t.name}}</span>
+            </td>
+            <td>{{v.comment}}</td>
+        </tr>
+        </tbody>
+        <tbody ng-show="true">
+        <tr ng-repeat="v in currentItem.variants.slice(0, 1)">
+            <td>{{currentItem.index+1}}</td>
+            <td>{{currentItem.headword}}</td>
+            <td><input id="spellingCorrection"
+                       class="form-control"
+                       ng-model="formInput.spellingCorrection"
+                       ng-keypress="ctrl.onKeyPress($event, 'spellingCorrection')">
+            </td>
+            <td>
+                <ui-select multiple
+                           ng-model="v.tags"
+                           on-remove="ctrl.columnRemoved($item, $model)"
+                           theme="bootstrap"
+                           close-on-select="true"
+                           style="width: 100%;"
+                           title="Select applicable tags">
+                    <ui-select-match placeholder="Select a tag ...">
+                        {{$item.name}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="t as t in tags">
+                        <span ng-bind="t.name"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+            <td>
+                <input class="form-control"
+                       ng-model="v.comment"
+                       ng-keypress="ctrl.onKeyPress($event, 'comment')">
+            </td>
+        </tr>
+        </tbody>
+        <tbody ng-repeat="i in getItemsAhead()"
+               ng-click="jumpTo(i)">
+        <tr ng-repeat="v in i.variants.slice(0, 1)">
+            <td>{{i.index+1}}</td>
+            <td><span ng-class="{changed: i.headword != i.spellingCorrection}">{{i.headword}}</span></td>
+            <td><span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span></td>
+            <td>
+            <span class="label label-success"
+                  ng-repeat="t in v.tags">{{t.name}}</span>
+            </td>
+            <td>{{v.comment}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
