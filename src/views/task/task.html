@@ -8,7 +8,7 @@
 
     <div class="row">
         <h2>Details</h2>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="list-group">
                 <div class="list-group-item">
                     Project:
@@ -67,6 +67,26 @@
         </tr>
     </table>
 
+    <h2>Work Data</h2>
+
+    <table class="table">
+        <tr ng-hide="loads.length">
+            <td>No data loads found</td>
+        </tr>
+        <tbody ng-show="loads.length">
+        <tr>
+            <th>Load Id</th>
+            <th>Created At</th>
+            <th>Created By</th>
+        </tr>
+        <tr ng-repeat="load in loads">
+            <td>{{load.loadId}}</td>
+            <td>{{load.createdAt|date:yyyy-mm-dd}}</td>
+            <td>User {{load.createdBy}}</td>
+        </tr>
+        </tbody>
+    </table>
+
     <div at-lex-data-input="ctrl.dataLoaded(filename, type, size, data)"></div>
 
     <ul></ul>
@@ -93,16 +113,21 @@
         <hr>
         <div class="btn-toolbar">
             <button class="btn btn-primary"
-                    ng-click="ctrl.saveData()">Upload
+                    ng-click="ctrl.checkData()">Check Data
+            </button>
+            <button class="btn btn-primary"
+                    ng-disabled="!dataPack.checked"
+                    ng-click="ctrl.saveData()">Save
             </button>
         </div>
 
         <ul></ul>
         <table class="table" ng-show="innerTabIndex === 0">
             <tr>
-                <th ng-repeat="c in dataPack.cols">{{c}}</th>
+                <th ng-repeat="c in dataPack.cols">{{c.label}}</th>
             </tr>
-            <tr ng-repeat="row in dataPack.parsedData">
+            <tr ng-repeat="row in dataPack.rows"
+                ng-class="row.checked ? (row.record ? 'warning' : 'success') : ''">
                 <!--<td>{{row}}</td>-->
                 <td ng-repeat="i in dataPack.cols">
                     {{row[$index]}}

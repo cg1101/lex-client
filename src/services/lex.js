@@ -42,6 +42,17 @@ mod.factory('Lex', function ($http, $q, $filter, api, $timeout) {
         getTaskTags: function (taskId) {
             return $http.get(api('/tasks/' + taskId + '/tags/'));
         },
+        getTaskLoads: function (taskId) {
+            return $http.get(api('/tasks/' + taskId + '/loads/'));
+        },
+        checkHeadwords: function (data) {
+            var taskId = data.taskId;
+            return $http.post(api('/tasks/' + taskId + '/check-headwords'), data);
+        },
+        saveHeadwords: function (data) {
+            var taskId = data.taskId;
+            return $http.post(api('/tasks/' + taskId + '/save-headwords'), data);
+        },
         getBatch: function (batchId) {
             return {
                 data: {
