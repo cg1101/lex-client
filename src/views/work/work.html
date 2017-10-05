@@ -1,11 +1,12 @@
 <h1>Working on batch {{batchId}}</h1>
 
+<!--
 <div class="row" ng-show="true">
     <div class="col-sm-4">
         <label>Alphabet</label>
         <select class="form-control" ng-model="alphabetId"
                 ng-options="a.alphabetId as '' + a.alphabetId + ' ' + a.name for a in alphabets|orderBy:'alphabetId'">
-            <option value="">-- Choose an Alphabet --</option>
+            <option value="">&#45;&#45; Choose an Alphabet &#45;&#45;</option>
         </select>
     </div>
 
@@ -13,13 +14,14 @@
         <label>Task Type</label>
         <select class="form-control" ng-model="taskType"
                 ng-options="t as t.name for t in taskTypes">
-            <option value="">-- Choose a taskType --</option>
+            <option value="">&#45;&#45; Choose a taskType &#45;&#45;</option>
         </select>
     </div>
 
 </div>
 
 <hr>
+-->
 
 <div ng-switch="taskType.name">
     <table class="table table-bordered"
@@ -196,7 +198,8 @@
         </tr>
         <tbody ng-repeat="i in getItemsBehind()"
                ng-click="jumpTo(i)">
-        <tr ng-repeat="v in i.variants.slice(0, 1)">
+        <tr ng-repeat="v in i.variants.slice(0, 1)"
+            ng-class="i.saved ? 'success' : ''">
             <td>{{i.index+1}}</td>
             <td><span ng-class="{changed: i.headword != i.spellingCorrection}">{{i.headword}}</span></td>
             <td><span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span></td>
@@ -241,7 +244,8 @@
         </tbody>
         <tbody ng-repeat="i in getItemsAhead()"
                ng-click="jumpTo(i)">
-        <tr ng-repeat="v in i.variants.slice(0, 1)">
+        <tr ng-repeat="v in i.variants.slice(0, 1)"
+            ng-class="i.saved ? 'success' : ''">
             <td>{{i.index+1}}</td>
             <td><span ng-class="{changed: i.headword != i.spellingCorrection}">{{i.headword}}</span></td>
             <td><span ng-show="i.headword != i.spellingCorrection">{{i.spellingCorrection}}</span></td>

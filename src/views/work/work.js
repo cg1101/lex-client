@@ -20,16 +20,17 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Li
             {taskTypeId: 2, name: 'Spelling'},
             {taskTypeId: 3, name: 'Markup'}
         ];
-        $scope.taskType = $scope.taskTypes[0];
 
         var taskId = 30034500;
 
         $q.all({
-            batch: Lex.getBatch(batchId),
+            batchContext: Lex.getBatchContext(batchId),
             tags: Lex.getTaskTags(taskId),
             alphabets: Lex.getAlphabets()
         }).then(function (result) {
-            var batch = result.batch.data.batch,
+            var batch = result.batchContext.data.batch,
+                task = result.batchContext.data.task,
+                subTask = result.batchContext.data.subTask,
                 items = $filter('orderBy')(batch.data, ['headword', 'ranking']);
 
             $scope.alphabets = result.alphabets.data.alphabets;
@@ -40,6 +41,7 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Li
             if (items.length) {
                 $scope.currentItem = $scope.items[0];
             }
+            $scope.taskType = {taskTypeId: task.taskTypeId, name: task.taskType};
 
             $log.debug('page loading time', (new Date() - t0) / 1000);
         }).finally(function () {
@@ -61,18 +63,19 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Li
                     index: items.length,
                     headword: hw,
                     spellingCorrection: hw,
-                    variants: [{sampa: rawItem.sampa, tags: tags, comment: null}]
+                    variants: [{sampa: rawItem.sampa || '.', tags: tags, comment: null}]
                 };
                 itemByHeadword[hw] = newItem;
                 items.push(newItem);
             } else {
                 itemByHeadword[hw].variants.push({
-                    sampa: rawItem.sampa,
+                    sampa: rawItem.sampa || '.',
                     tags: tags,
                     comment: null
                 });
             }
         });
+        $log.debug('processed items', items);
         return items;
     }
 
@@ -149,25 +152,33 @@ mod.controller('WorkCtrl', function ($scope, batchId, $q, Lex, $filter, $log, Li
     function saveCurrentThenGoTo(item) {
         var currentItem = $scope.currentItem,
             formInput = $scope.formInput,
-            nextItem, variant;
+            variant, data = {};
         $log.debug('save current edited item, spellingCorrection, sampa, tags, etc.');
-        $q.resolve(true).then(function () {
-            if (currentItem) {
-                $log.debug('save formInput', formInput, 'into current item', currentItem);
-                currentItem.spellingCorrection = formInput.spellingCorrection;
-                currentItem.variants.length = 0;
-                angular.forEach(formInput.variants, function (v) {
-                    if (v.sampa.search(/\S/) >= 0) {
-                        variant = angular.extend({}, v);
-                        currentItem.variants.push(variant);
-                    }
-                });
+        if (currentItem) {
+            $log.debug('save formInput', formInput, 'into current item', currentItem);
+            currentItem.spellingCorrection = formInput.spellingCorrection;
+            currentItem.variants.length = 0;
+            angular.forEach(formInput.variants, function (v) {
+                if (v.sampa.search(/\S/) >= 0) {
+                    variant = angular.extend({}, v);
+                    currentItem.variants.push(variant);
+                }
+            });
+            data.headword = currentItem.headword;
+            data.spellingCorrection = currentItem.spellingCorrection;
+            data.variants = currentItem.variants;
+            Lex.saveLexWork(data).then(function (response) {
+                var workEntry = response.data.workEntry;
+                currentItem.saved = workEntry;
+                $log.debug('saved entry', workEntry);
                 // $log.debug('after saving', currentItem);
                 if (currentItem != item) {
                     $scope.currentItem = item;
                 }
-            }
-        });
+            });
+        } else {
+            $scope.currentItem = item;
+        }
     }
 
     this.columnRemoved = function ($item, $model) {
