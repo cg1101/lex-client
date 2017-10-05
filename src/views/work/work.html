@@ -38,7 +38,8 @@
         <tbody ng-repeat="i in getItemsBehind()"
                ng-click="jumpTo(i)"
                ng-init="nrows = i.variants.length">
-        <tr ng-repeat="v in i.variants">
+        <tr ng-repeat="v in i.variants"
+            ng-class="i.saved ? 'success' : ''">
             <td ng-if="$index==0" rowspan="{{nrows}}">
                 {{i.index+1}}
             </td>
@@ -169,7 +170,8 @@
         <tbody ng-repeat="i in getItemsAhead()"
                ng-click="jumpTo(i)"
                ng-init="nrows = i.variants.length">
-        <tr ng-repeat="v in i.variants">
+        <tr ng-repeat="v in i.variants"
+            ng-class="i.saved ? 'success' : ''">
             <td ng-if="$index==0" rowspan="{{nrows}}">
                 {{i.index+1}}
             </td>
